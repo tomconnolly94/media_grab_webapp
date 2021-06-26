@@ -19,7 +19,7 @@
                         <th>Latest Episode</th>
                         <th>Blacklist terms</th>
                     </tr>
-                    <tr v-for="item in content">
+                    <tr v-for="item in content" v-bind:class="item['typeSpecificData']['latestEpisode'] != 1 ? 'active' : 'inactive'">
                         <td>{{ item.name }}</td>
                         <td>{{ item["typeSpecificData"]["latestSeason"] }}</td>
                         <td>{{ item["typeSpecificData"]["latestEpisode"] }}</td>
@@ -31,6 +31,8 @@
             </div>
 
             <div id="inputPanel" class="panel">
+                <h3>Add new MediaIndex record:</h3>
+
                 <form action="/MediaIndexRecord" method="POST">
 
                     <div class="row">
