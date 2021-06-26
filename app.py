@@ -27,7 +27,7 @@ def index():
 def MediaIndex():
     return serveMediaIndex()
 
-    
+
 @app.route('/MediaIndexRecord', methods=["POST"])
 def MediaIndexRecord():
     return submitMediaIndexRecord(request)
@@ -49,4 +49,4 @@ def customCssModule(module):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0")
