@@ -2,29 +2,30 @@
 
 # external dependencies
 import os
-from server.interfaces.MediaIndexFileInterface import writeNewRecordToMediaIndexFile
+from server.interfaces.MediaIndexFileInterface import removeRecordFromMediaInfoFile, writeNewRecordToMediaInfoFile
 
 # internal dependencies
 from server.page_server import serveIndex
 
 
-def serveMediaIndex():
+def serveMediaInfo():
     f = open(os.getenv("MEDIA_INDEX_FILE_LOCATION"), "r")
     mediaIndexFileContent = f.read()
     return mediaIndexFileContent
 
-def submitMediaIndexRecord(request):
+
+def submitMediaInfoRecord(form):
 
     # extract data
-    mediaName = request.form.get('mediaName')
-    latestSeason = int(request.form.get('latestSeason'))
-    latestEpisode = int(request.form.get('latestEpisode'))
-    blacklistTerms = request.form.get('blacklistTerms')
+    mediaName = form.get('mediaName')
+    latestSeason = int(form.get('latestSeason'))
+    latestEpisode = int(form.get('latestEpisode'))
+    blacklistTerms = form.get('blacklistTerms')
 
     blacklistTerms = [ term.replace(" ", "") for term in blacklistTerms.split(",") ]
 
-    writeNewRecordToMediaIndexFile(mediaName, latestSeason, latestEpisode, blacklistTerms)
+    writeNewRecordToMediaInfoFile(mediaName, latestSeason, latestEpisode, blacklistTerms)
 
 
-    return serveIndex()
-
+def deleteMediaInfoRecord(recordName):
+    removeRecordFromMediaInfoFile(recordName)

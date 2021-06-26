@@ -23,11 +23,11 @@ def loadMediaFile():
 		return json.loads(mediaIndexfile.read())["media"]
 
 
-def writeNewRecordToMediaIndexFile(name, latestSeason, latestEpisode, blacklistTerms):
+def writeNewRecordToMediaInfoFile(name, latestSeason, latestEpisode, blacklistTerms):
 
-    mediaIndexRecords = loadMediaFile()
+    mediaInfoRecords = loadMediaFile()
 
-    for record in mediaIndexRecords:
+    for record in mediaInfoRecords:
         if name == record["name"]:
             return None
 
@@ -41,12 +41,26 @@ def writeNewRecordToMediaIndexFile(name, latestSeason, latestEpisode, blacklistT
         "blacklistTerms": blacklistTerms
     }
 
-    mediaIndexRecords.append(newRecord)
+    mediaInfoRecords.append(newRecord)
 
-    mediaIndexRecords = sorted(mediaIndexRecords, key=lambda record: record["name"])
+    mediaInfoRecords = sorted(mediaInfoRecords, key=lambda record: record["name"])
 
-    media = { "media": mediaIndexRecords }
-    
+    writeToMediaInfoRecordsFile(mediaInfoRecords)
+
+
+def writeToMediaInfoRecordsFile(mediaInfoRecords):
+    media = { "media": mediaInfoRecords }
+
     if writeFile:
         with open(os.getenv("MEDIA_INDEX_FILE_LOCATION"), "w") as mediaFileTarget:
             json.dump(media, mediaFileTarget)
+
+
+def removeRecordFromMediaInfoFile(recordName):
+
+    mediaInfoRecords = loadMediaFile()
+
+    mediaInfoRecords = [ record for record in mediaInfoRecords if record["name"] != recordName ]
+
+    writeToMediaInfoRecordsFile(mediaInfoRecords)
+

@@ -4,6 +4,8 @@
         <title>Media Grab control panel</title>
         <meta charset=utf-8>
         <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     </head>
     <body>
 
@@ -18,13 +20,17 @@
                         <th>Latest Season</th>
                         <th>Latest Episode</th>
                         <th>Blacklist terms</th>
+                        <th>Remove</th>
                     </tr>
                     <tr v-for="item in content" v-bind:class="item['typeSpecificData']['latestEpisode'] != 1 ? 'active' : 'inactive'">
-                        <td>{{ item.name }}</td>
+                        <td>{{ item['name'] }}</td>
                         <td>{{ item["typeSpecificData"]["latestSeason"] }}</td>
                         <td>{{ item["typeSpecificData"]["latestEpisode"] }}</td>
                         <td>
                             <p v-for="blacklistTerm in item.blacklistTerms">{{ blacklistTerm }}</p>
+                        </td>
+                        <td>
+                            <button class="btn" @click="xButtonClicked(item['name'])"><i class="fa fa-close"></i></button>
                         </td>
                     </tr>
                 </table> 
@@ -33,7 +39,7 @@
             <div id="inputPanel" class="panel">
                 <h3>Add new MediaIndex record:</h3>
 
-                <form action="/MediaIndexRecord" method="POST">
+                <form action="/MediaInfoRecord" method="POST">
 
                     <div class="row">
                         <div class="col-25">

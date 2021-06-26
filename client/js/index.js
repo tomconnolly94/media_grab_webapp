@@ -15,6 +15,13 @@ function loadMediaIndexJson(){
         return {
           content: mediaIndexList
         } 
+      },
+      methods: {
+        xButtonClicked: function(recordName) {
+          axios.delete(`/MediaInfoRecord?recordName=${recordName}`).then((response) => {
+            window.location.href = "/";
+          });
+        }
       }
     }) 
   });

@@ -1,14 +1,13 @@
 #!/venv/bin/python
 
 # external dependencies
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, Response
 from dotenv import load_dotenv
 from os.path import join, dirname
-import os
 
 # internal dependencies
 from server.page_server import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule
-from server.data_server import serveMediaIndex, submitMediaIndexRecord
+from server.data_server import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord
 
 #create app
 app = Flask(__name__, template_folder="client")
@@ -25,13 +24,23 @@ def index():
 
 @app.route("/MediaIndex", methods=["GET"])
 def MediaIndex():
-    return serveMediaIndex()
+    return serveMediaInfo()
 
 
-@app.route('/MediaIndexRecord', methods=["POST"])
+@app.route('/MediaInfoRecord', methods=["POST", "DELETE"])
 def MediaIndexRecord():
-    submitMediaIndexRecord(request)
-    return redirect("/")
+    if request.method == "POST":
+        submitMediaInfoRecord(request.form)
+        return redirect("/")
+    elif request.method == "DELETE":
+        deleteMediaInfoRecord(request.args["recordName"])
+        return Response(response="Ok",
+                    status=200)
+    else:
+        print("ERROR: http request method unrecognised for this route")
+
+    # request.method = "GET"
+    # return redirect("/")
 
 
 @app.route("/node_modules/<module>", methods=["GET"])
