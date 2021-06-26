@@ -42,6 +42,9 @@ def writeNewRecordToMediaIndexFile(name, latestSeason, latestEpisode, blacklistT
     }
 
     mediaIndexRecords.append(newRecord)
+
+    mediaIndexRecords = sorted(mediaIndexRecords, key=lambda record: record["name"])
+
     media = { "media": mediaIndexRecords }
     
     if writeFile:

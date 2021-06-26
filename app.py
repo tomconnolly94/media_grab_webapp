@@ -1,7 +1,7 @@
 #!/venv/bin/python
 
 # external dependencies
-from flask import Flask, request
+from flask import Flask, request, redirect
 from dotenv import load_dotenv
 from os.path import join, dirname
 import os
@@ -30,7 +30,8 @@ def MediaIndex():
 
 @app.route('/MediaIndexRecord', methods=["POST"])
 def MediaIndexRecord():
-    return submitMediaIndexRecord(request)
+    submitMediaIndexRecord(request)
+    return redirect("/")
 
 
 @app.route("/node_modules/<module>", methods=["GET"])
