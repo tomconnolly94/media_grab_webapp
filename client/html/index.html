@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>My App!</title>
+        <title>Media Grab control panel</title>
         <meta charset=utf-8>
         <link rel="stylesheet" href="/css/index.css">
     </head>
@@ -21,8 +21,8 @@
                     </tr>
                     <tr v-for="item in content">
                         <td>{{ item.name }}</td>
-                        <td>{{ item["typeSpecificData"]["latestEpisode"] }}</td>
                         <td>{{ item["typeSpecificData"]["latestSeason"] }}</td>
+                        <td>{{ item["typeSpecificData"]["latestEpisode"] }}</td>
                         <td>
                             <p v-for="blacklistTerm in item.blacklistTerms">{{ blacklistTerm }}</p>
                         </td>
