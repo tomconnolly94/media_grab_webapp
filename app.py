@@ -1,13 +1,14 @@
 #!/venv/bin/python
 
 # external dependencies
-from flask import Flask, render_template, Response
+from flask import Flask, request
 from dotenv import load_dotenv
 from os.path import join, dirname
 import os
 
 # internal dependencies
-
+from server.page_server import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule
+from server.data_server import serveMediaIndex, submitMediaIndexRecord
 
 #create app
 app = Flask(__name__, template_folder="client")
@@ -18,38 +19,33 @@ load_dotenv(dotenv_path)
 
 
 @app.route("/", methods=["GET"])
-def serverIndex():
-    resp = Response(response=render_template('./index.html'),
-                    status=200,
-                    mimetype="text/html")
+def index():
+    return serveIndex()
 
-                    
-    f = open(f"client/index.html", "r")
-    return f.read()
 
 @app.route("/MediaIndex", methods=["GET"])
-def serveMediaIndex():
-    f = open(os.getenv("MEDIA_INDEX_FILE_LOCATION"), "r")
-    mediaIndexFileContent = f.read()
-    return mediaIndexFileContent
+def MediaIndex():
+    return serveMediaIndex()
+
+    
+@app.route('/MediaIndexRecord', methods=["POST"])
+def MediaIndexRecord():
+    return submitMediaIndexRecord(request)
+
 
 @app.route("/node_modules/<module>", methods=["GET"])
-def serveNodeModule(module):
-    moduleName = module.replace(".js", "")
-    f = open(f"client/node_modules/{moduleName}/dist/{moduleName}.js", "r")
-    
-    return Response(response=f.read(),
-                    status=200,
-                    mimetype="text/javascript")
+def nodeModule(module):
+    return serveNodeModule(module)
+
 
 @app.route("/js/<module>", methods=["GET"])
-def serveModule(module):
-    moduleName = module.replace(".js", "")
-    f = open(f"client/{moduleName}.js", "r")
+def customJsModule(module):
+    return serveCustomJsModule(module)
 
-    return Response(response=f.read(),
-                    status=200,
-                    mimetype="text/javascript")
+
+@app.route("/css/<module>", methods=["GET"])
+def customCssModule(module):
+    return serveCustomCssModule(module)
 
 
 if __name__ == "__main__":

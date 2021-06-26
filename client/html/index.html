@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My App!</title>
+        <meta charset=utf-8>
+        <link rel="stylesheet" href="/css/index.css">
+    </head>
+    <body>
+
+        <h1>Media Grab control</h1>
+        <div id="pageContent">
+            <div id="displayPanel" class="panel">
+                <h3>Current MediaIndex.json content:</h3>
+
+                <table id="mediaIndexContent">
+                    <tr>
+                        <th>Name</th>
+                        <th>Latest Season</th>
+                        <th>Latest Episode</th>
+                        <th>Blacklist terms</th>
+                    </tr>
+                    <tr v-for="item in content">
+                        <td>{{ item.name }}</td>
+                        <td>{{ item["typeSpecificData"]["latestEpisode"] }}</td>
+                        <td>{{ item["typeSpecificData"]["latestSeason"] }}</td>
+                        <td>
+                            <p v-for="blacklistTerm in item.blacklistTerms">{{ blacklistTerm }}</p>
+                        </td>
+                    </tr>
+                </table> 
+            </div>
+
+            <div id="inputPanel" class="panel">
+                <form action="/MediaIndexRecord" method="POST">
+
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="mediaName">Media Name</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="mediaName" name="mediaName" placeholder="Enter the name of the tv show you want to watch..">
+                        </div>
+                      </div>
+
+
+                      <div class="row">
+                        <div class="col-25">
+                          <label for="latestSeason">Latest Season:</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="number" id="latestSeason" name="latestSeason" min="1">
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-25">
+                          <label for="latestEpisode">Latest Episode:</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="number" id="latestEpisode" name="latestEpisode" min="1">
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-25">
+                          <label for="blacklistTerms">Blacklist terms:</label>
+                        </div>
+                        <div class="col-75">
+                          <textarea id="blacklistTerms" name="blacklistTerms" placeholder="Enter terms to avoid while searching for this show, separated by commas.." style="height:200px"></textarea>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <input type="submit" value="Submit">
+                      </div>
+
+                  </form>
+            </div>
+        </div>
+
+        <!-- script references -->
+        <script type="text/javascript" src="/node_modules/vue.js"></script>
+        <script type="text/javascript" src="/node_modules/axios.js"></script>
+        <script type="text/javascript" src=/js/index.js></script>
+    </body>
+        
+</html>
