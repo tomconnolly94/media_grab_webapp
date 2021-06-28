@@ -1,9 +1,10 @@
 #!/venv/bin/python
 
 # external dependencies
-from flask import Flask, request, redirect, Response
+from flask import Flask, request, redirect, Response, send_from_directory
 from dotenv import load_dotenv
 from os.path import join, dirname
+import os
 
 # internal dependencies
 from server.page_server import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule
@@ -20,6 +21,12 @@ load_dotenv(dotenv_path)
 @app.route("/", methods=["GET"])
 def index():
     return serveIndex()
+
+
+@app.route("/favicon.ico", methods=["GET"])
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'client/images'),
+                          'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route("/MediaIndex", methods=["GET"])
