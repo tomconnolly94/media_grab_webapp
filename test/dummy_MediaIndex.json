@@ -1,0 +1,45 @@
+{
+    "media": [
+        {
+            "name": "rick and morty",
+            "typeSpecificData": {
+                "latestSeason": 5,
+                "latestEpisode": 2
+            },
+            "blacklistTerms": [
+                "jerry",
+                "beth"
+            ]
+        },
+        {
+            "name": "fake tv show 1",
+            "typeSpecificData": {
+                "latestSeason": 1,
+                "latestEpisode": 1
+            },
+            "blacklistTerms": [
+                "blacklist term 1"
+            ]
+        },
+        {
+            "name": "fake tv show 2",
+            "typeSpecificData": {
+                "latestSeason": 1,
+                "latestEpisode": 7
+            },
+            "blacklistTerms": [
+                "blacklist term 1"
+            ]
+        },
+        {
+            "name": "fake tv show 3",
+            "typeSpecificData": {
+                "latestSeason": 5,
+                "latestEpisode": 14
+            },
+            "blacklistTerms": [
+                "blacklist term 1"
+            ]
+        }
+    ]
+}

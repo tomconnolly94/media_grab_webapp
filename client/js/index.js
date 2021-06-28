@@ -20,7 +20,8 @@ function loadMediaIndexJson() {
 			el: '#mediaIndexContent',
 			data() {
 				return {
-					content: mediaInfoList
+					content: mediaInfoList,
+					temp:"helloboi"
 				}
 			},
 			methods: {
@@ -53,7 +54,7 @@ function addEditFieldToObject(obj, relevantKey){
 function reformatMediaIndexData(mediaIndexData) {
 	mediaIndexData.forEach(item => {
 		Object.keys(item).forEach(key => {
-			if(Object.prototype.toString.call(item[key]) === '[object Object]'){
+			if(typeof item[key] === 'object'){
 				var subItem = item[key];
 				Object.keys(subItem).forEach(subKey => {
 					addEditFieldToObject(subItem, subKey);

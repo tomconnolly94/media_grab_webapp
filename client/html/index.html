@@ -1,124 +1,147 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Media Grab control panel</title>
-        <meta charset=utf-8>
-        <link rel="stylesheet" href="/css/index.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    </head>
-    <body>
+<head>
+	<title>Media Grab control panel</title>
+	<meta charset=utf-8>
+	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <h1>Media Grab control</h1>
-        <div id="pageContent">
-            <div id="displayPanel" class="panel">
-                <h3>Current MediaIndex.json content:</h3>
+</head>
 
-                <table id="mediaIndexContent">
-                    <tr>
-                        <th>Name</th>
-                        <th>Latest Season</th>
-                        <th>Latest Episode</th>
-                        <th>Blacklist terms</th>
-                        <th>Remove</th>
-                    </tr>
-                    <tr v-for="item in content" v-bind:class="item['typeSpecificData']['latestEpisode'] != 1 ? 'active' : 'inactive'">
+<body>
+
+	<h1>Media Grab control</h1>
+	<div id="pageContent">
+		<div id="displayPanel" class="panel">
+			<h3>Current MediaIndex.json content:</h3>
+
+			<table id="mediaIndexContent">
+				<tr>
+					<th>Name</th>
+					<th>Latest Season</th>
+					<th>Latest Episode</th>
+					<th>Blacklist terms</th>
+					<th>Remove</th>
+				</tr>
+				<tr v-for="item in content"
+					v-bind:class="item['typeSpecificData']['latestEpisode'].content != 1 ? 'active' : 'inactive'">
 
 
 
-                        <td>
-							<input type="text" v-if="item['name'].edit" v-model="item['name'].content" @blur="item['name'].edit = false; $emit('update'); inputConfirmed(item, 'name');" @keyup.enter = "item['name'].edit = false; $emit('update')">
+					<td>
+						<input type="text" v-if="item['name'].edit" v-model="item['name'].content"
+							@blur="item['name'].edit = false; $emit('update'); inputConfirmed(item['name'].content, 'name');"
+							@keyup.enter="item['name'].edit = false; $emit('update')">
+						<div v-else>
+							<label @click="item['name'].edit = true;"> {{ item['name'].content }} </label>
+						</div>
+					</td>
+					<td>
+						<input type="number" v-if="item['typeSpecificData']['latestSeason'].edit"
+							v-model="item['typeSpecificData']['latestSeason'].content"
+							@blur="item['typeSpecificData']['latestSeason'].edit = false; $emit('update'); inputConfirmed(item['typeSpecificData']['latestSeason'].content, 'latestSeason');"
+							@keyup.enter="item['typeSpecificData']['latestSeason'].edit = false; $emit('update'); inputConfirmed(item['typeSpecificData']['latestSeason'].content, 'latestSeason');">
+						<div v-else>
+							<label @click="item['typeSpecificData']['latestSeason'].edit = true;"> {{
+								item['typeSpecificData']['latestSeason'].content }} </label>
+						</div>
+					</td>
+					<td>
+						<input type="number" v-if="item['typeSpecificData']['latestEpisode'].edit"
+							v-model="item['typeSpecificData']['latestEpisode'].content"
+							@blur="item['typeSpecificData']['latestEpisode'].edit = false; $emit('update'); inputConfirmed(item['typeSpecificData']['latestEpisode'].content, 'latestEpisode');"
+							@keyup.enter="item['typeSpecificData']['latestEpisode'].edit = false; $emit('update'); inputConfirmed(item['typeSpecificData']['latestEpisode'], 'latestEpisode');">
+						<div v-else>
+							<label @click="item['typeSpecificData']['latestEpisode'].edit = true;"> {{
+								item['typeSpecificData']['latestEpisode'].content }} </label>
+						</div>
+					</td>
+					<td>
+						<div v-for="blacklistTerm in item.blacklistTerms">
+							<input 	v-if="blacklistTerm.edit"
+									v-model="blacklistTerm.content" 
+									@blur="blacklistTerm.edit = false; $emit('update'); inputConfirmed(item.blacklistTerms, 'blacklistTerm');"
+									@keyup.enter="blacklistTerm.edit = false; $emit('update');">
 							<div v-else>
-								<label @click="item['name'].edit = true;"> {{ item['name'].content }} </label>
+								<p 	@click="blacklistTerm.edit = true; $emit('update');" >
+									{{ blacklistTerm.content }}
+								</p>
 							</div>
-                        </td>
-                        <td>
-							<input type="number" v-if="item['typeSpecificData']['latestSeason'].edit" v-model="item['typeSpecificData']['latestSeason'].content" @blur="item['typeSpecificData']['latestSeason'].edit = false; $emit('update'); inputConfirmed(item, 'name');" @keyup.enter = "item['typeSpecificData']['latestSeason'].edit = false; $emit('update')">
-							<div v-else>
-								<label @click="item['typeSpecificData']['latestSeason'].edit = true;"> {{ item['typeSpecificData']['latestSeason'].content }} </label>
-							</div>
-                        </td>
-                        <td>
-							<input type="number" v-if="item['typeSpecificData']['latestEpisode'].edit" v-model="item['typeSpecificData']['latestEpisode'].content" @blur="item['typeSpecificData']['latestEpisode'].edit = false; $emit('update'); inputConfirmed(item, 'name');" @keyup.enter = "item['typeSpecificData']['latestEpisode'].edit = false; $emit('update')">
-							<div v-else>
-								<label @click="item['typeSpecificData']['latestEpisode'].edit = true;"> {{ item['typeSpecificData']['latestEpisode'].content }} </label>
-							</div>
-                        </td>
-                        <td>
-							<input v-if="item['blacklistTerms'].edit" v-model="item['blacklistTerms'].content" @blur="item['blacklistTerms'].edit = false; $emit('update'); inputConfirmed(item, 'name');" @keyup.enter = "item['blacklistTerms'].edit = false; $emit('update')">
-							<div v-else>
-								<p v-for="blacklistTerm in item.blacklistTerms.content" @click="item['blacklistTerms'].edit = true;">{{ blacklistTerm }}</p>
-							</div>
-                        </td>
+						</div>
+					</td>
 
 
 
-                        <!-- <td>{{ item['name'] }}</td> -->
-                        <!-- <td>{{ item["typeSpecificData"]["latestSeason"] }}</td>
+					<!-- <td>{{ item['name'] }}</td> -->
+					<!-- <td>{{ item["typeSpecificData"]["latestSeason"] }}</td>
                         <td>{{ item["typeSpecificData"]["latestEpisode"] }}</td> -->
-                        <!-- <td>
+					<!-- <td>
                             <p v-for="blacklistTerm in item.blacklistTerms">{{ blacklistTerm }}</p>
                         </td> -->
-                        <td>
-                            <button class="btn" @click="xButtonClicked(item['name'])"><i class="fa fa-close"></i></button>
-                        </td>
-                    </tr>
-                </table> 
-            </div>
+					<td>
+						<button class="btn" @click="xButtonClicked(item['name'])"><i class="fa fa-close"></i></button>
+					</td>
+				</tr>
+			</table>
+		</div>
 
-            <div id="inputPanel" class="panel">
-                <h3>Add new MediaIndex record:</h3>
+		<div id="inputPanel" class="panel">
+			<h3>Add new MediaIndex record:</h3>
 
-                <form action="/MediaInfoRecord" method="POST">
+			<form action="/MediaInfoRecord" method="POST">
 
-                    <div class="row">
-                        <div class="col-25">
-                            <label for="mediaName">Media Name</label>
-                        </div>
-                        <div class="col-75">
-                            <input type="text" id="mediaName" name="mediaName" placeholder="Enter the name of the tv show you want to watch..">
-                        </div>
-                      </div>
+				<div class="row">
+					<div class="col-25">
+						<label for="mediaName">Media Name</label>
+					</div>
+					<div class="col-75">
+						<input type="text" id="mediaName" name="mediaName"
+							placeholder="Enter the name of the tv show you want to watch..">
+					</div>
+				</div>
 
 
-                      <div class="row">
-                        <div class="col-25">
-                          <label for="latestSeason">Latest Season:</label>
-                        </div>
-                        <div class="col-75">
-                            <input type="number" id="latestSeason" name="latestSeason" min="1">
-                        </div>
-                      </div>
+				<div class="row">
+					<div class="col-25">
+						<label for="latestSeason">Latest Season:</label>
+					</div>
+					<div class="col-75">
+						<input type="number" id="latestSeason" name="latestSeason" min="1">
+					</div>
+				</div>
 
-                      <div class="row">
-                        <div class="col-25">
-                          <label for="latestEpisode">Latest Episode:</label>
-                        </div>
-                        <div class="col-75">
-                            <input type="number" id="latestEpisode" name="latestEpisode" min="1">
-                        </div>
-                      </div>
+				<div class="row">
+					<div class="col-25">
+						<label for="latestEpisode">Latest Episode:</label>
+					</div>
+					<div class="col-75">
+						<input type="number" id="latestEpisode" name="latestEpisode" min="1">
+					</div>
+				</div>
 
-                      <div class="row">
-                        <div class="col-25">
-                          <label for="blacklistTerms">Blacklist terms:</label>
-                        </div>
-                        <div class="col-75">
-                          <textarea id="blacklistTerms" name="blacklistTerms" placeholder="Enter terms to avoid while searching for this show, separated by commas.." style="height:200px"></textarea>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <input type="submit" value="Submit">
-                      </div>
+				<div class="row">
+					<div class="col-25">
+						<label for="blacklistTerms">Blacklist terms:</label>
+					</div>
+					<div class="col-75">
+						<textarea id="blacklistTerms" name="blacklistTerms"
+							placeholder="Enter terms to avoid while searching for this show, separated by commas.."
+							style="height:200px"></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<input type="submit" value="Submit">
+				</div>
 
-                  </form>
-            </div>
-        </div>
+			</form>
+		</div>
+	</div>
 
-        <!-- script references -->
-        <script type="text/javascript" src="/node_modules/vue.js"></script>
-        <script type="text/javascript" src="/node_modules/axios.js"></script>
-        <script type="text/javascript" src=/js/index.js></script>
-    </body>
-        
+	<!-- script references -->
+	<script type="text/javascript" src="/node_modules/vue.js"></script>
+	<script type="text/javascript" src="/node_modules/axios.js"></script>
+	<script type="text/javascript" src=/js/index.js></script>
+</body>
+
 </html>
