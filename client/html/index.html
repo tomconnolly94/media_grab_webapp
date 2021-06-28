@@ -23,12 +23,42 @@
                         <th>Remove</th>
                     </tr>
                     <tr v-for="item in content" v-bind:class="item['typeSpecificData']['latestEpisode'] != 1 ? 'active' : 'inactive'">
-                        <td>{{ item['name'] }}</td>
-                        <td>{{ item["typeSpecificData"]["latestSeason"] }}</td>
-                        <td>{{ item["typeSpecificData"]["latestEpisode"] }}</td>
+
+
+
                         <td>
-                            <p v-for="blacklistTerm in item.blacklistTerms">{{ blacklistTerm }}</p>
+							<input type="text" v-if="item['name'].edit" v-model="item['name'].content" @blur="item['name'].edit = false; $emit('update'); inputConfirmed(item, 'name');" @keyup.enter = "item['name'].edit = false; $emit('update')">
+							<div v-else>
+								<label @click="item['name'].edit = true;"> {{ item['name'].content }} </label>
+							</div>
                         </td>
+                        <td>
+							<input type="number" v-if="item['typeSpecificData']['latestSeason'].edit" v-model="item['typeSpecificData']['latestSeason'].content" @blur="item['typeSpecificData']['latestSeason'].edit = false; $emit('update'); inputConfirmed(item, 'name');" @keyup.enter = "item['typeSpecificData']['latestSeason'].edit = false; $emit('update')">
+							<div v-else>
+								<label @click="item['typeSpecificData']['latestSeason'].edit = true;"> {{ item['typeSpecificData']['latestSeason'].content }} </label>
+							</div>
+                        </td>
+                        <td>
+							<input type="number" v-if="item['typeSpecificData']['latestEpisode'].edit" v-model="item['typeSpecificData']['latestEpisode'].content" @blur="item['typeSpecificData']['latestEpisode'].edit = false; $emit('update'); inputConfirmed(item, 'name');" @keyup.enter = "item['typeSpecificData']['latestEpisode'].edit = false; $emit('update')">
+							<div v-else>
+								<label @click="item['typeSpecificData']['latestEpisode'].edit = true;"> {{ item['typeSpecificData']['latestEpisode'].content }} </label>
+							</div>
+                        </td>
+                        <td>
+							<input v-if="item['blacklistTerms'].edit" v-model="item['blacklistTerms'].content" @blur="item['blacklistTerms'].edit = false; $emit('update'); inputConfirmed(item, 'name');" @keyup.enter = "item['blacklistTerms'].edit = false; $emit('update')">
+							<div v-else>
+								<p v-for="blacklistTerm in item.blacklistTerms.content" @click="item['blacklistTerms'].edit = true;">{{ blacklistTerm }}</p>
+							</div>
+                        </td>
+
+
+
+                        <!-- <td>{{ item['name'] }}</td> -->
+                        <!-- <td>{{ item["typeSpecificData"]["latestSeason"] }}</td>
+                        <td>{{ item["typeSpecificData"]["latestEpisode"] }}</td> -->
+                        <!-- <td>
+                            <p v-for="blacklistTerm in item.blacklistTerms">{{ blacklistTerm }}</p>
+                        </td> -->
                         <td>
                             <button class="btn" @click="xButtonClicked(item['name'])"><i class="fa fa-close"></i></button>
                         </td>
