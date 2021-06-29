@@ -1,7 +1,7 @@
 #!/venv/bin/python
 
 # external dependencies
-from flask import render_template, Response
+from flask import Response
 
 def serveIndex():
     f = open(f"client/html/index.html", "r")
