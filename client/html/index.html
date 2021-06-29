@@ -24,7 +24,7 @@
 					<th>Blacklist terms</th>
 					<th>Remove</th>
 				</tr>
-				<tr v-for="item in content"
+				<tr v-for="(item, itemIndex) in content"
 					v-bind:class="item['typeSpecificData']['latestEpisode'].content != 1 ? 'active' : 'inactive'">
 
 
@@ -32,8 +32,8 @@
 					<td>
 						<input 	type="text" v-if="item['name'].edit" 
 								v-model="item['name'].content"							
-								@blur="confirmItemEdit(item, item['name']);"
-								@keyup.enter="confirmItemEdit(item, item['name']);">
+								@blur="confirmItemEdit(item, item['name'], itemIndex);"
+								@keyup.enter="confirmItemEdit(item, item['name'], itemIndex);">
 						<div v-else>
 							<label @click="makeFieldEditable(item['name']);"> {{ item['name'].content }} </label>
 						</div>
@@ -41,8 +41,8 @@
 					<td>
 						<input type="number" v-if="item['typeSpecificData']['latestSeason'].edit"
 							v-model="item['typeSpecificData']['latestSeason'].content"
-							@blur="confirmItemEdit(item, item['typeSpecificData']['latestSeason']);"
-							@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestSeason']);">
+							@blur="confirmItemEdit(item, item['typeSpecificData']['latestSeason'], itemIndex);"
+							@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestSeason'], itemIndex);">
 						<div v-else>
 							<label @click="makeFieldEditable(item['typeSpecificData']['latestSeason']);"> {{
 								item['typeSpecificData']['latestSeason'].content }} </label>
@@ -51,8 +51,8 @@
 					<td>
 						<input type="number" v-if="item['typeSpecificData']['latestEpisode'].edit"
 							v-model="item['typeSpecificData']['latestEpisode'].content"
-							@blur="confirmItemEdit(item, item['typeSpecificData']['latestEpisode']);"
-							@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestEpisode']);">
+							@blur="confirmItemEdit(item, item['typeSpecificData']['latestEpisode'], itemIndex);"
+							@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestEpisode'], itemIndex);">
 						<div v-else>
 							<label @click="makeFieldEditable(item['typeSpecificData']['latestEpisode']);"> {{
 								item['typeSpecificData']['latestEpisode'].content }} </label>
@@ -62,8 +62,8 @@
 						<div v-for="blacklistTerm in item.blacklistTerms">
 							<input 	v-if="blacklistTerm.edit"
 									v-model="blacklistTerm.content" 
-									@blur="confirmItemEdit(item, blacklistTerm);"
-									@keyup.enter="confirmItemEdit(item, blacklistTerm);">
+									@blur="confirmItemEdit(item, blacklistTerm, itemIndex);"
+									@keyup.enter="confirmItemEdit(item, blacklistTerm, itemIndex);">
 							<div v-else>
 								<p 	@click="makeFieldEditable(blacklistTerm);" >
 									{{ blacklistTerm.content }}

@@ -33,7 +33,7 @@ var fieldHandlerMap = {
 	"blacklistTerms": updateMediaInfoBlacklistTerms
 }
 
-function submitModifiedItem(item){
+function submitModifiedItem(item, itemIndex){
 	console.log(item);
 
 	var formattedBlackListTerms = [];
@@ -53,14 +53,14 @@ function submitModifiedItem(item){
 	console.log(formattedItem);
 
 	
-	axios.put(`/MediaIndex`, formattedItem).then((response) => {
+	axios.put(`/MediaInfoRecord/${itemIndex}`, formattedItem).then((response) => {
 		console.log(response);
 	});
 }
 
 
 function loadMediaIndexJson() {
-	axios.get(`/MediaIndex`).then((response) => {
+	axios.get(`/MediaInfoRecords`).then((response) => {
 
 		var mediaInfoList = response.data["media"];
 
@@ -78,13 +78,9 @@ function loadMediaIndexJson() {
 				makeFieldEditable: function (field){
 					field.edit = true;
 				},
-				confirmFieldEdit: function (recordName, fieldName, field){
-					field.edit = false;
-					fieldHandlerMap[fieldName](recordName, field.content);
-				},
-				confirmItemEdit: function (item, editedField){
+				confirmItemEdit: function (item, editedField, itemIndex){
 					editedField.edit = false;
-					submitModifiedItem(item);
+					submitModifiedItem(item, itemIndex);
 				},
 				xButtonClicked: function (recordName) {
 					axios.delete(`/MediaInfoRecord?recordName=${recordName}`).then((response) => {

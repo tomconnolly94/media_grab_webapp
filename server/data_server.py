@@ -32,9 +32,9 @@ def deleteMediaInfoRecord(recordName):
     removeRecordFromMediaInfoFile(recordName)
 
 
-def updateMediaInfoRecord(newMediaIndexRecord):
+def updateMediaInfoRecord(newMediaIndexRecord, recordIndex):
     newMediaIndexRecord = json.loads(newMediaIndexRecord)
     print(newMediaIndexRecord)
 
-    return updateRecordInMediaInfoFile(newMediaIndexRecord)
+    return updateRecordInMediaInfoFile(newMediaIndexRecord, recordIndex)
     

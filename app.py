@@ -32,24 +32,28 @@ def favicon():
                           'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
-@app.route("/MediaIndex", methods=["GET", "PUT"])
-def MediaIndex():
-    if request.method == "GET":
+@app.route("/MediaInfoRecords", methods=["GET"])
+def MediaInfoRecords():
         return serveMediaInfo()
-    elif request.method == "PUT":
-        if updateMediaInfoRecord(request.data):
-            return getErrorReponse(200, "got put request, all good") 
-        else:
-            return getErrorReponse(500, "put request failed") 
-    else:
-        return Response("ERROR, method incorrect",
-                    status=404,
-                    mimetype="text") 
 
 
 
-@app.route('/MediaInfoRecord', methods=["POST", "DELETE"])
-def MediaIndexRecord():
+# @app.route("/MediaIndex/<recordIndex>", methods=["GET", "PUT"])
+# def MediaIndex(recordIndex):
+#     elif request.method == "PUT":
+#         if updateMediaInfoRecord(request.data):
+#             return getErrorReponse(200, "got put request, all good") 
+#         else:
+#             return getErrorReponse(500, "put request failed") 
+#     else:
+#         return Response("ERROR, method incorrect",
+#                     status=404,
+#                     mimetype="text") 
+
+
+
+@app.route('/MediaInfoRecord/<recordIndex>', methods=["POST", "PUT", "DELETE"])
+def MediaIndexRecord(recordIndex):
     if request.method == "POST":
         submitMediaInfoRecord(request.form)
         return redirect("/")
@@ -57,6 +61,11 @@ def MediaIndexRecord():
         deleteMediaInfoRecord(request.args["recordName"])
         return Response(response="Ok",
                     status=200)
+    elif request.method == "PUT":
+        if updateMediaInfoRecord(request.data, int(recordIndex)):
+            return getErrorReponse(200, "got put request, all good") 
+        else:
+            return getErrorReponse(500, "put request failed") 
     else:
         print("ERROR: http request method unrecognised for this route")
 
