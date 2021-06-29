@@ -30,30 +30,31 @@
 
 
 					<td>
-						<input type="text" v-if="item['name'].edit" v-model="item['name'].content"
-							@blur="item['name'].edit = false; $emit('update'); inputConfirmed(item['name'].content, 'name');"
-							@keyup.enter="item['name'].edit = false; $emit('update')">
+						<input 	type="text" v-if="item['name'].edit" 
+								v-model="item['name'].content"							
+								@blur="confirmItemEdit(item, item['name']);"
+								@keyup.enter="confirmItemEdit(item, item['name']);">
 						<div v-else>
-							<label @click="item['name'].edit = true;"> {{ item['name'].content }} </label>
+							<label @click="makeFieldEditable(item['name']);"> {{ item['name'].content }} </label>
 						</div>
 					</td>
 					<td>
 						<input type="number" v-if="item['typeSpecificData']['latestSeason'].edit"
 							v-model="item['typeSpecificData']['latestSeason'].content"
-							@blur="item['typeSpecificData']['latestSeason'].edit = false; $emit('update'); inputConfirmed(item['typeSpecificData']['latestSeason'].content, 'latestSeason');"
-							@keyup.enter="item['typeSpecificData']['latestSeason'].edit = false; $emit('update'); inputConfirmed(item['typeSpecificData']['latestSeason'].content, 'latestSeason');">
+							@blur="confirmItemEdit(item, item['typeSpecificData']['latestSeason']);"
+							@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestSeason']);">
 						<div v-else>
-							<label @click="item['typeSpecificData']['latestSeason'].edit = true;"> {{
+							<label @click="makeFieldEditable(item['typeSpecificData']['latestSeason']);"> {{
 								item['typeSpecificData']['latestSeason'].content }} </label>
 						</div>
 					</td>
 					<td>
 						<input type="number" v-if="item['typeSpecificData']['latestEpisode'].edit"
 							v-model="item['typeSpecificData']['latestEpisode'].content"
-							@blur="item['typeSpecificData']['latestEpisode'].edit = false; $emit('update'); inputConfirmed(item['typeSpecificData']['latestEpisode'].content, 'latestEpisode');"
-							@keyup.enter="item['typeSpecificData']['latestEpisode'].edit = false; $emit('update'); inputConfirmed(item['typeSpecificData']['latestEpisode'], 'latestEpisode');">
+							@blur="confirmItemEdit(item, item['typeSpecificData']['latestEpisode']);"
+							@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestEpisode']);">
 						<div v-else>
-							<label @click="item['typeSpecificData']['latestEpisode'].edit = true;"> {{
+							<label @click="makeFieldEditable(item['typeSpecificData']['latestEpisode']);"> {{
 								item['typeSpecificData']['latestEpisode'].content }} </label>
 						</div>
 					</td>
@@ -61,10 +62,10 @@
 						<div v-for="blacklistTerm in item.blacklistTerms">
 							<input 	v-if="blacklistTerm.edit"
 									v-model="blacklistTerm.content" 
-									@blur="blacklistTerm.edit = false; $emit('update'); inputConfirmed(item.blacklistTerms, 'blacklistTerm');"
-									@keyup.enter="blacklistTerm.edit = false; $emit('update');">
+									@blur="confirmItemEdit(item, blacklistTerm);"
+									@keyup.enter="confirmItemEdit(item, blacklistTerm);">
 							<div v-else>
-								<p 	@click="blacklistTerm.edit = true; $emit('update');" >
+								<p 	@click="makeFieldEditable(blacklistTerm);" >
 									{{ blacklistTerm.content }}
 								</p>
 							</div>

@@ -1,13 +1,63 @@
-Vue.directive('clickaway', {
-	bind(el, { value }) {
-		if (typeof value !== 'function') {
-			console.warn(`Expect a function, got ${value}`)
-			return
-		}
+//////////////////////////////////////////////////////////////////////
+//
+// filename: index.js
+// author: Tom Connolly
+// description: Contains controller functionality for the index.html
+//
+//////////////////////////////////////////////////////////////////////
 
-		document.addEventListener('click', e => el.contains(e.target) || value())
+function updateMediaInfoName(recordName, newName){
+	console.log(recordName);
+	console.log(newName);
+}
+
+function updateMediaInfoLatestSeason(recordName, newLatestSeason){
+	console.log(recordName);
+	console.log(newLatestSeason);	
+}
+
+function updateMediaInfoLatestEpisode(recordName, newLatestEpisode){
+	console.log(recordName);
+	console.log(newLatestEpisode);
+}
+
+function updateMediaInfoBlacklistTerms(recordName, newBlacklist){
+	console.log(recordName);
+	console.log(newBlacklist);
+}
+
+var fieldHandlerMap = {
+	"name": updateMediaInfoName,
+	"latestSeason": updateMediaInfoLatestSeason,
+	"latestEpisode": updateMediaInfoLatestEpisode,
+	"blacklistTerms": updateMediaInfoBlacklistTerms
+}
+
+function submitModifiedItem(item){
+	console.log(item);
+
+	var formattedBlackListTerms = [];
+
+	item.blacklistTerms.forEach((blacklistTerm) => {
+		formattedBlackListTerms.push(blacklistTerm.content)
+	});
+
+	var formattedItem = {
+		"name": item.name.content,
+		"typeSpecificData": {
+			"latestSeason": Number(item.typeSpecificData.latestSeason.content),
+			"latestEpisode": Number(item.typeSpecificData.latestEpisode.content)
+		},
+		"blacklistTerms": formattedBlackListTerms
 	}
-});
+	console.log(formattedItem);
+
+	
+	axios.put(`/MediaIndex`, formattedItem).then((response) => {
+		console.log(response);
+	});
+}
+
 
 function loadMediaIndexJson() {
 	axios.get(`/MediaIndex`).then((response) => {
@@ -25,14 +75,21 @@ function loadMediaIndexJson() {
 				}
 			},
 			methods: {
+				makeFieldEditable: function (field){
+					field.edit = true;
+				},
+				confirmFieldEdit: function (recordName, fieldName, field){
+					field.edit = false;
+					fieldHandlerMap[fieldName](recordName, field.content);
+				},
+				confirmItemEdit: function (item, editedField){
+					editedField.edit = false;
+					submitModifiedItem(item);
+				},
 				xButtonClicked: function (recordName) {
 					axios.delete(`/MediaInfoRecord?recordName=${recordName}`).then((response) => {
 						window.location.href = "/";
 					});
-				},
-				inputConfirmed: function(item, changedFieldName){
-					console.log(item);
-					console.log(changedFieldName);
 				}
 			}
 		})

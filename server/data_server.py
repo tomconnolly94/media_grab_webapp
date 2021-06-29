@@ -1,8 +1,9 @@
 #!/venv/bin/python
 
 # external dependencies
+import json
 import os
-from server.interfaces.MediaIndexFileInterface import removeRecordFromMediaInfoFile, writeNewRecordToMediaInfoFile
+from server.interfaces.MediaIndexFileInterface import removeRecordFromMediaInfoFile, updateRecordInMediaInfoFile, writeNewRecordToMediaInfoFile
 
 # internal dependencies
 from server.page_server import serveIndex
@@ -29,3 +30,11 @@ def submitMediaInfoRecord(form):
 
 def deleteMediaInfoRecord(recordName):
     removeRecordFromMediaInfoFile(recordName)
+
+
+def updateMediaInfoRecord(newMediaIndexRecord):
+    newMediaIndexRecord = json.loads(newMediaIndexRecord)
+    print(newMediaIndexRecord)
+
+    return updateRecordInMediaInfoFile(newMediaIndexRecord)
+    

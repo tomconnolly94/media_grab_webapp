@@ -64,3 +64,18 @@ def removeRecordFromMediaInfoFile(recordName):
 
     writeToMediaInfoRecordsFile(mediaInfoRecords)
 
+
+def updateRecordInMediaInfoFile(newRecord):
+    
+    mediaInfoRecords = loadMediaFile()
+    newMediaInfoRecords = []
+
+    for mediaInfoRecord in mediaInfoRecords:
+        if mediaInfoRecord["name"] == newRecord["name"]:
+            newMediaInfoRecords.append(newRecord)
+        else:
+            newMediaInfoRecords.append(mediaInfoRecord)
+
+    writeToMediaInfoRecordsFile(newMediaInfoRecords)
+
+    return True

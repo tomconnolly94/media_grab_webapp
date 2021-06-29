@@ -8,7 +8,7 @@ import os
 
 # internal dependencies
 from server.page_server import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule
-from server.data_server import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord
+from server.data_server import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord, updateMediaInfoRecord
 
 #create app
 app = Flask(__name__, template_folder="client")
@@ -16,6 +16,9 @@ app = Flask(__name__, template_folder="client")
 # load env file
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
+
+def getErrorReponse(errorCode, errorMessage):
+    Response(errorMessage, status=errorCode, mimetype="text/html") 
 
 
 @app.route("/", methods=["GET"])
@@ -29,9 +32,20 @@ def favicon():
                           'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
-@app.route("/MediaIndex", methods=["GET"])
+@app.route("/MediaIndex", methods=["GET", "PUT"])
 def MediaIndex():
-    return serveMediaInfo()
+    if request.method == "GET":
+        return serveMediaInfo()
+    elif request.method == "PUT":
+        if updateMediaInfoRecord(request.data):
+            return getErrorReponse(200, "got put request, all good") 
+        else:
+            return getErrorReponse(500, "put request failed") 
+    else:
+        return Response("ERROR, method incorrect",
+                    status=404,
+                    mimetype="text") 
+
 
 
 @app.route('/MediaInfoRecord', methods=["POST", "DELETE"])
