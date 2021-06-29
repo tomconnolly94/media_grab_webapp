@@ -18,7 +18,7 @@ dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
 def getErrorReponse(errorCode, errorMessage):
-    Response(errorMessage, status=errorCode, mimetype="text/html") 
+    return Response(errorMessage, status=errorCode, mimetype="text/html") 
 
 
 @app.route("/", methods=["GET"])
