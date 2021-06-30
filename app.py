@@ -8,7 +8,7 @@ import os
 
 # internal dependencies
 from server.page_server import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule, serveNodeModuleMapModule
-from server.data_server import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord, updateMediaInfoRecord
+from server.data_server import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord, updateMediaInfoRecord, runMediaGrab
 
 #create app
 app = Flask(__name__, template_folder="client")
@@ -54,6 +54,14 @@ def MediaIndexRecord(recordIndex):
             return getResponse(500, "put request failed") 
     else:
         getResponse(500, "request method unrecognised for this route") 
+
+
+@app.route('/runMediaGrab', methods=["GET"])
+def mediaGrab():
+    if runMediaGrab():
+        return getResponse(200, "run media grab accepted") 
+    else:
+        return getResponse(500, "run media grab failed") 
 
 
 @app.route("/node_modules/<module>", methods=["GET"])

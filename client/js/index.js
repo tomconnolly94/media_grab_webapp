@@ -123,4 +123,21 @@ Vue.component("modal", {
 			console.log("cancel");
 		}
 	}
-  });
+});
+
+new Vue({
+	el: '#triggerPanel',
+	data() {
+		return {
+			responseMessage: ""
+		}
+	},
+	methods: {
+		runMediaGrab: function (){
+			axios.get(`/runMediaGrab`).then((response) => {
+				console.log("runMediaGrab successfully run");
+				this.responseMessage = `MediaGrab run at ${new Date().toLocaleString()}`
+			});
+		}
+	}
+});

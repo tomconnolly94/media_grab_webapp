@@ -145,8 +145,13 @@
 			</form>
 		</div>
 
+		<div id="triggerPanel" class="panel">
+			<input type="submit" value="Run MediaGrab" @click="runMediaGrab">
+			<p id="runMediaGrabResponsePanel">{{ responseMessage }}</p>
+		</div>
 
-		<div>
+
+		<div id="templatePanel">
 			<script type="text/x-template" id="modal-template">
 				<transition name="modal">
 				  <div class="modal-mask">

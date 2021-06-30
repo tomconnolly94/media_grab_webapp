@@ -83,7 +83,7 @@ input[type=submit] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    float: right;
+    /*float: right;*/
     margin: 10px;
 }
 
@@ -208,3 +208,8 @@ input[type=submit]:hover {
   
 /* modal styles */
 
+
+#runMediaGrabResponsePanel {
+    float: right;
+    padding: 20px;
+}

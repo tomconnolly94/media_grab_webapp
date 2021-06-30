@@ -7,7 +7,7 @@ from server.interfaces.MediaIndexFileInterface import removeRecordFromMediaInfoF
 
 # internal dependencies
 from server.page_server import serveIndex
-
+import subprocess
 
 def serveMediaInfo():
     f = open(os.getenv("MEDIA_INDEX_FILE_LOCATION"), "r")
@@ -37,3 +37,14 @@ def updateMediaInfoRecord(newMediaIndexRecord, recordIndex):
 
     return updateRecordInMediaInfoFile(newMediaIndexRecord, recordIndex)
     
+
+def runMediaGrab():
+    #print(os.getenv("MEDIA_GRAB_PYTHON"), os.getenv("MEDIA_GRAB_MAIN_SCRIPT"))
+    #subprocess.run(["/home/tom/projects/media_grab/venv/bin/python", "/home/tom/projects/media_grab/Main.py"])
+
+    #subprocess.Popen("venv/bin/python Main.py", cwd="..//media_grab/")
+    
+
+    subprocess.check_call(['venv/bin/python', 'Main.py'], cwd="../media_grab")
+
+    return True
