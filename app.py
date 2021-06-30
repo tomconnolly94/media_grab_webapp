@@ -17,7 +17,7 @@ app = Flask(__name__, template_folder="client")
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-def getErrorReponse(errorCode, errorMessage):
+def getResponse(errorCode, errorMessage):
     return Response(errorMessage, status=errorCode, mimetype="text/html") 
 
 
@@ -37,40 +37,23 @@ def MediaInfoRecords():
         return serveMediaInfo()
 
 
-
-# @app.route("/MediaIndex/<recordIndex>", methods=["GET", "PUT"])
-# def MediaIndex(recordIndex):
-#     elif request.method == "PUT":
-#         if updateMediaInfoRecord(request.data):
-#             return getErrorReponse(200, "got put request, all good") 
-#         else:
-#             return getErrorReponse(500, "put request failed") 
-#     else:
-#         return Response("ERROR, method incorrect",
-#                     status=404,
-#                     mimetype="text") 
-
-
-
 @app.route('/MediaInfoRecord/<recordIndex>', methods=["POST", "PUT", "DELETE"])
 def MediaIndexRecord(recordIndex):
     if request.method == "POST":
         submitMediaInfoRecord(request.form)
         return redirect("/")
     elif request.method == "DELETE":
-        deleteMediaInfoRecord(request.args["recordName"])
-        return Response(response="Ok",
-                    status=200)
+        if deleteMediaInfoRecord(int(recordIndex)):
+            return getResponse(200, "got delete request, all good") 
+        else:
+            return getResponse(500, "delete request failed") 
     elif request.method == "PUT":
         if updateMediaInfoRecord(request.data, int(recordIndex)):
-            return getErrorReponse(200, "got put request, all good") 
+            return getResponse(200, "got put request, all good") 
         else:
-            return getErrorReponse(500, "put request failed") 
+            return getResponse(500, "put request failed") 
     else:
-        print("ERROR: http request method unrecognised for this route")
-
-    # request.method = "GET"
-    # return redirect("/")
+        getResponse(500, "request method unrecognised for this route") 
 
 
 @app.route("/node_modules/<module>", methods=["GET"])

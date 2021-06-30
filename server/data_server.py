@@ -25,11 +25,11 @@ def submitMediaInfoRecord(form):
 
     blacklistTerms = [ term.replace(" ", "") for term in blacklistTerms.split(",") ]
 
-    writeNewRecordToMediaInfoFile(mediaName, latestSeason, latestEpisode, blacklistTerms)
+    return writeNewRecordToMediaInfoFile(mediaName, latestSeason, latestEpisode, blacklistTerms)
 
 
-def deleteMediaInfoRecord(recordName):
-    removeRecordFromMediaInfoFile(recordName)
+def deleteMediaInfoRecord(recordIndex):
+    return removeRecordFromMediaInfoFile(recordIndex)
 
 
 def updateMediaInfoRecord(newMediaIndexRecord, recordIndex):

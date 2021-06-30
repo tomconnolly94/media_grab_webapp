@@ -6,33 +6,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-function updateMediaInfoName(recordName, newName){
-	console.log(recordName);
-	console.log(newName);
-}
-
-function updateMediaInfoLatestSeason(recordName, newLatestSeason){
-	console.log(recordName);
-	console.log(newLatestSeason);	
-}
-
-function updateMediaInfoLatestEpisode(recordName, newLatestEpisode){
-	console.log(recordName);
-	console.log(newLatestEpisode);
-}
-
-function updateMediaInfoBlacklistTerms(recordName, newBlacklist){
-	console.log(recordName);
-	console.log(newBlacklist);
-}
-
-var fieldHandlerMap = {
-	"name": updateMediaInfoName,
-	"latestSeason": updateMediaInfoLatestSeason,
-	"latestEpisode": updateMediaInfoLatestEpisode,
-	"blacklistTerms": updateMediaInfoBlacklistTerms
-}
-
 function submitModifiedItem(item, itemIndex){
 	console.log(item);
 
@@ -71,7 +44,9 @@ function loadMediaIndexJson() {
 			data() {
 				return {
 					content: mediaInfoList,
-					temp:"helloboi"
+					modalVisible: false,
+					confirmCloseModalFunction: null,
+					modalText: null
 				}
 			},
 			methods: {
@@ -82,10 +57,23 @@ function loadMediaIndexJson() {
 					editedField.edit = false;
 					submitModifiedItem(item, itemIndex);
 				},
-				xButtonClicked: function (recordName) {
-					axios.delete(`/MediaInfoRecord?recordName=${recordName}`).then((response) => {
+				xButtonClicked: function (itemIndex) {
+					axios.delete(`/MediaInfoRecord/${itemIndex}`).then((response) => {
 						window.location.href = "/";
 					});
+				},
+				showModal: function(confirmFunction, modalText){
+					this.modalText = modalText;
+					this.modalVisible = true;
+					this.confirmCloseModalFunction = confirmFunction;
+				},
+				confirmCloseModal: function(){
+					this.modalVisible = false;
+					this.confirmCloseModalFunction();
+				},
+				cancelCloseModal: function(){
+					this.modalVisible = false;
+					console.log("cancelCloseModal() called.");
 				}
 			}
 		})
@@ -122,3 +110,17 @@ function reformatMediaIndexData(mediaIndexData) {
 }
 
 loadMediaIndexJson();
+
+
+// register modal component
+Vue.component("modal", {
+	template: "#modal-template",
+	methods:{
+		okCloseModal: function(){
+			console.log("Ok");
+		},
+		cancelCloseModal: function(){
+			console.log("cancel");
+		}
+	}
+  });

@@ -16,81 +16,88 @@
 		<div id="displayPanel" class="panel">
 			<h3>Current MediaIndex.json content:</h3>
 
-			<table id="mediaIndexContent">
-				<tr>
-					<th>Name</th>
-					<th>Latest Season</th>
-					<th>Latest Episode</th>
-					<th>Blacklist terms</th>
-					<th>Remove</th>
-				</tr>
-				<tr v-for="(item, itemIndex) in content"
-					v-bind:class="item['typeSpecificData']['latestEpisode'].content != 1 ? 'active' : 'inactive'">
+			<div id="mediaIndexContent">
+				<table>
+					<tr>
+						<th>Name</th>
+						<th>Latest Season</th>
+						<th>Latest Episode</th>
+						<th>Blacklist terms</th>
+						<th>Remove</th>
+					</tr>
+					<tr v-for="(item, itemIndex) in content"
+						v-bind:class="item['typeSpecificData']['latestEpisode'].content != 1 ? 'active' : 'inactive'">
 
 
 
-					<td>
-						<input 	type="text" v-if="item['name'].edit" 
-								v-model="item['name'].content"							
-								@blur="confirmItemEdit(item, item['name'], itemIndex);"
-								@keyup.enter="confirmItemEdit(item, item['name'], itemIndex);">
-						<div v-else>
-							<label @click="makeFieldEditable(item['name']);"> {{ item['name'].content }} </label>
-						</div>
-					</td>
-					<td>
-						<input type="number" v-if="item['typeSpecificData']['latestSeason'].edit"
-							v-model="item['typeSpecificData']['latestSeason'].content"
-							@blur="confirmItemEdit(item, item['typeSpecificData']['latestSeason'], itemIndex);"
-							@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestSeason'], itemIndex);">
-						<div v-else>
-							<label @click="makeFieldEditable(item['typeSpecificData']['latestSeason']);"> {{
-								item['typeSpecificData']['latestSeason'].content }} </label>
-						</div>
-					</td>
-					<td>
-						<input type="number" v-if="item['typeSpecificData']['latestEpisode'].edit"
-							v-model="item['typeSpecificData']['latestEpisode'].content"
-							@blur="confirmItemEdit(item, item['typeSpecificData']['latestEpisode'], itemIndex);"
-							@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestEpisode'], itemIndex);">
-						<div v-else>
-							<label @click="makeFieldEditable(item['typeSpecificData']['latestEpisode']);"> {{
-								item['typeSpecificData']['latestEpisode'].content }} </label>
-						</div>
-					</td>
-					<td>
-						<div v-for="blacklistTerm in item.blacklistTerms">
-							<input 	v-if="blacklistTerm.edit"
-									v-model="blacklistTerm.content" 
-									@blur="confirmItemEdit(item, blacklistTerm, itemIndex);"
-									@keyup.enter="confirmItemEdit(item, blacklistTerm, itemIndex);">
+						<td>
+							<input 	type="text" v-if="item['name'].edit" 
+									v-model="item['name'].content"							
+									@blur="confirmItemEdit(item, item['name'], itemIndex);"
+									@keyup.enter="confirmItemEdit(item, item['name'], itemIndex);">
 							<div v-else>
-								<p 	@click="makeFieldEditable(blacklistTerm);" >
-									{{ blacklistTerm.content }}
-								</p>
+								<label @click="makeFieldEditable(item['name']);"> {{ item['name'].content }} </label>
 							</div>
+						</td>
+						<td>
+							<input type="number" v-if="item['typeSpecificData']['latestSeason'].edit"
+								v-model="item['typeSpecificData']['latestSeason'].content"
+								@blur="confirmItemEdit(item, item['typeSpecificData']['latestSeason'], itemIndex);"
+								@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestSeason'], itemIndex);">
+							<div v-else>
+								<label @click="makeFieldEditable(item['typeSpecificData']['latestSeason']);"> {{
+									item['typeSpecificData']['latestSeason'].content }} </label>
+							</div>
+						</td>
+						<td>
+							<input type="number" v-if="item['typeSpecificData']['latestEpisode'].edit"
+								v-model="item['typeSpecificData']['latestEpisode'].content"
+								@blur="confirmItemEdit(item, item['typeSpecificData']['latestEpisode'], itemIndex);"
+								@keyup.enter="confirmItemEdit(item, item['typeSpecificData']['latestEpisode'], itemIndex);">
+							<div v-else>
+								<label @click="makeFieldEditable(item['typeSpecificData']['latestEpisode']);"> {{
+									item['typeSpecificData']['latestEpisode'].content }} </label>
+							</div>
+						</td>
+						<td>
+							<div v-for="blacklistTerm in item.blacklistTerms">
+								<input 	v-if="blacklistTerm.edit"
+										v-model="blacklistTerm.content" 
+										@blur="confirmItemEdit(item, blacklistTerm, itemIndex);"
+										@keyup.enter="confirmItemEdit(item, blacklistTerm, itemIndex);">
+								<div v-else>
+									<p 	@click="makeFieldEditable(blacklistTerm);" >
+										{{ blacklistTerm.content }}
+									</p>
+								</div>
+							</div>
+						</td>
+						<td>
+							<button class="btn" @click="showModal(() => { xButtonClicked(itemIndex); }, `Are you sure you want to remove ${item.name.content}?`);"><i class="fa fa-close"></i></button>
+						</td>
+					</tr>
+				</table>
+
+				<div id="modalPanel">
+					<modal v-if="modalVisible">
+						<h3 slot="header">{{ modalText }}</h3>
+						<div slot="footer">
+							<button class="modal-default-button" @click="confirmCloseModal();">
+							OK
+							</button>
+							<button class="modal-default-button" @click="cancelCloseModal();">
+							Cancel
+							</button>
 						</div>
-					</td>
-
-
-
-					<!-- <td>{{ item['name'] }}</td> -->
-					<!-- <td>{{ item["typeSpecificData"]["latestSeason"] }}</td>
-                        <td>{{ item["typeSpecificData"]["latestEpisode"] }}</td> -->
-					<!-- <td>
-                            <p v-for="blacklistTerm in item.blacklistTerms">{{ blacklistTerm }}</p>
-                        </td> -->
-					<td>
-						<button class="btn" @click="xButtonClicked(item['name'])"><i class="fa fa-close"></i></button>
-					</td>
-				</tr>
-			</table>
+					</modal>
+				</div>
+			</div>
 		</div>
 
 		<div id="inputPanel" class="panel">
 			<h3>Add new MediaIndex record:</h3>
 
-			<form action="/MediaInfoRecord" method="POST">
+			<form action="/MediaInfoRecord/0" method="POST">
 
 				<div class="row">
 					<div class="col-25">
@@ -136,6 +143,30 @@
 				</div>
 
 			</form>
+		</div>
+
+
+		<div>
+			<script type="text/x-template" id="modal-template">
+				<transition name="modal">
+				  <div class="modal-mask">
+					<div class="modal-wrapper">
+					  <div class="modal-container">
+		  
+						<div class="modal-header">
+						  <slot name="header">
+							Are you sure?
+						  </slot>
+						</div>
+		  
+						<div class="modal-footer">
+						  <slot name="footer"></slot>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				</transition>
+			  </script>
 		</div>
 	</div>
 

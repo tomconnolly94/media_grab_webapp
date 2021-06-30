@@ -46,6 +46,7 @@ def writeNewRecordToMediaInfoFile(name, latestSeason, latestEpisode, blacklistTe
     mediaInfoRecords = sorted(mediaInfoRecords, key=lambda record: record["name"])
 
     writeToMediaInfoRecordsFile(mediaInfoRecords)
+    return True
 
 
 def writeToMediaInfoRecordsFile(mediaInfoRecords):
@@ -56,13 +57,13 @@ def writeToMediaInfoRecordsFile(mediaInfoRecords):
             json.dump(media, mediaFileTarget)
 
 
-def removeRecordFromMediaInfoFile(recordName):
+def removeRecordFromMediaInfoFile(recordIndex):
 
     mediaInfoRecords = loadMediaFile()
-
-    mediaInfoRecords = [ record for record in mediaInfoRecords if record["name"] != recordName ]
-
+    del mediaInfoRecords[recordIndex]
+    
     writeToMediaInfoRecordsFile(mediaInfoRecords)
+    return True
 
 
 def updateRecordInMediaInfoFile(newRecord, recordIndex):
