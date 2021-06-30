@@ -33,3 +33,13 @@ def serveCustomJsModule(module):
     return Response(response=f.read(),
                     status=200,
                     mimetype="text/javascript")
+
+
+def serveNodeModuleMapModule(mapModule):
+    moduleName = mapModule.replace(".js", "")
+    moduleNameWOMap = moduleName.replace(".map", "")
+    f = open(f"client/node_modules/{moduleNameWOMap}/dist/{moduleName}", "r")
+    
+    return Response(response=f.read(),
+                    status=200,
+                    mimetype="text/javascript")

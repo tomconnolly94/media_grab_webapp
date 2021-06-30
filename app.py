@@ -7,7 +7,7 @@ from os.path import join, dirname
 import os
 
 # internal dependencies
-from server.page_server import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule
+from server.page_server import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule, serveNodeModuleMapModule
 from server.data_server import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord, updateMediaInfoRecord
 
 #create app
@@ -58,7 +58,10 @@ def MediaIndexRecord(recordIndex):
 
 @app.route("/node_modules/<module>", methods=["GET"])
 def nodeModule(module):
-    return serveNodeModule(module)
+    if ".map" in module:
+        return serveNodeModuleMapModule(module)
+    else:
+        return serveNodeModule(module)
 
 
 @app.route("/js/<module>", methods=["GET"])
