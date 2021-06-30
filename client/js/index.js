@@ -129,14 +129,21 @@ new Vue({
 	el: '#triggerPanel',
 	data() {
 		return {
-			responseMessage: ""
+			responseMessage: "",
+			running: false
 		}
 	},
 	methods: {
 		runMediaGrab: function (){
+			if (this.running){
+				return;
+			}
+
+			this.running = true;
 			axios.get(`/runMediaGrab`).then((response) => {
 				console.log("runMediaGrab successfully run");
 				this.responseMessage = `MediaGrab run at ${new Date().toLocaleString()}`
+				this.running = false;
 			});
 		}
 	}
