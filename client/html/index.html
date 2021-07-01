@@ -146,10 +146,12 @@
 		</div>
 
 		<div id="triggerPanel" class="panel">
-			<input type="submit" value="Run MediaGrab" @click="runMediaGrab">
+			<input id="runMediaGrabButton" type="submit" value="Run MediaGrab" @click="runMediaGrab">
+			
+			<div class="loader" v-if="running"></div>
+
 			<p id="runMediaGrabResponsePanel">{{ responseMessage }}</p>
 		</div>
-
 
 		<div id="templatePanel">
 			<script type="text/x-template" id="modal-template">
