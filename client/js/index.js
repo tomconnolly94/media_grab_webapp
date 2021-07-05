@@ -130,7 +130,8 @@ new Vue({
 	data() {
 		return {
 			responseMessage: "",
-			running: false
+			running: false,
+			startTime: null
 		}
 	},
 	methods: {
@@ -140,9 +141,11 @@ new Vue({
 			}
 
 			this.running = true;
+			this.startTime = new Date().toLocaleString();
+
 			axios.get(`/runMediaGrab`).then((response) => {
 				console.log("runMediaGrab successfully run");
-				this.responseMessage = `MediaGrab run at ${new Date().toLocaleString()}`
+				this.responseMessage = `MediaGrab run at ${this.startTime}`
 				this.running = false;
 			});
 		}
