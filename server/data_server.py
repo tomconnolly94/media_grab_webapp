@@ -39,6 +39,8 @@ def updateMediaInfoRecord(newMediaIndexRecord, recordIndex):
     
 
 def runMediaGrab():
-    subprocess.check_call(['venv/bin/python', 'Main.py'], cwd="/hom/tom/projects/media_grab")
+    mediaGrabDir = os.getenv("MEDIA_GRAB_DIRECTORY")
+
+    subprocess.check_call(['venv/bin/python', 'Main.py'], cwd=mediaGrabDir)
 
     return True
