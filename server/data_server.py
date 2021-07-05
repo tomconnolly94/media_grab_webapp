@@ -23,7 +23,7 @@ def submitMediaInfoRecord(form):
     latestEpisode = int(form.get('latestEpisode'))
     blacklistTerms = form.get('blacklistTerms')
 
-    blacklistTerms = [ term.replace(" ", "") for term in blacklistTerms.split(",") ]
+    blacklistTerms = [ term.replace(" ", "") for term in blacklistTerms.split(",") if len(term) > 0]
 
     return writeNewRecordToMediaInfoFile(mediaName, latestSeason, latestEpisode, blacklistTerms)
 
@@ -39,12 +39,6 @@ def updateMediaInfoRecord(newMediaIndexRecord, recordIndex):
     
 
 def runMediaGrab():
-    #print(os.getenv("MEDIA_GRAB_PYTHON"), os.getenv("MEDIA_GRAB_MAIN_SCRIPT"))
-    #subprocess.run(["/home/tom/projects/media_grab/venv/bin/python", "/home/tom/projects/media_grab/Main.py"])
-
-    #subprocess.Popen("venv/bin/python Main.py", cwd="..//media_grab/")
-    
-
-    subprocess.check_call(['venv/bin/python', 'Main.py'], cwd="../media_grab")
+    subprocess.check_call(['venv/bin/python', 'Main.py'], cwd="/hom/tom/projects/media_grab")
 
     return True
