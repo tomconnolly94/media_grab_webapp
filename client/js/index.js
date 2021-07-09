@@ -21,7 +21,7 @@ function submitModifiedItem(item, itemIndex){
 			"latestSeason": Number(item.typeSpecificData.latestSeason.content),
 			"latestEpisode": Number(item.typeSpecificData.latestEpisode.content)
 		},
-		"blacklistTerms": formattedBlackListTerms
+		"blacklistTerms": formattedBlackListTerms,
 	}
 	console.log(formattedItem);
 
@@ -46,7 +46,7 @@ function loadMediaIndexJson() {
 					content: mediaInfoList,
 					modalVisible: false,
 					confirmCloseModalFunction: null,
-					modalText: null
+					modalText: null,
 				}
 			},
 			methods: {
@@ -74,6 +74,10 @@ function loadMediaIndexJson() {
 				cancelCloseModal: function(){
 					this.modalVisible = false;
 					console.log("cancelCloseModal() called.");
+				},
+				addNewBlacklistTerm: function(item){
+					item.newPotentialBlacklistItem.edit = false;
+					console.log("blacklistTerm added: ", item.newPotentialBlacklistItem.content);
 				}
 			}
 		})
@@ -105,6 +109,11 @@ function reformatMediaIndexData(mediaIndexData) {
 				addEditFieldToObject(item, key);
 			}			
 		});
+
+		item.newPotentialBlacklistItem = {
+			edit: false,
+			content: ""
+		}
 	});
 	return mediaIndexData;
 }

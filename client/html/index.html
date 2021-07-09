@@ -71,6 +71,15 @@
 									</p>
 								</div>
 							</div>
+							<div>
+								<input 	v-if="item.newPotentialBlacklistItem.edit"
+										v-model="item.newPotentialBlacklistItem.content" 
+										@blur="addNewBlacklistTerm(item);"
+										@keyup.enter="addNewBlacklistTerm(item);">
+								<button class="btn" v-if="!item.newPotentialBlacklistItem.edit" v-on:click="item.newPotentialBlacklistItem.edit = true;">
+									Add new blacklist term
+								</button>
+							</div>
 						</td>
 						<td>
 							<button class="btn" @click="showModal(() => { xButtonClicked(itemIndex); }, `Are you sure you want to remove ${item.name.content}?`);"><i class="fa fa-close"></i></button>
