@@ -6,20 +6,24 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-function submitModifiedItem(item, itemIndex){
+var homeUrl = "/"
+
+function submitModifiedItem(item, itemIndex, successCallback){
 
 	var formattedItem = formatFrontendItemToBackendItem(item);
 	
 	axios.put(`/MediaInfoRecord/${itemIndex}`, formattedItem).then((response) => {
-		console.log(response);
-	});
+		successCallback();
+	})
+    .catch(err => {
+    	console.log(err);
+    });
 }
 
 function formatFrontendItemToBackendItem(frontendItem){
 	
 	//deal with formatting each blacklist term
 	var formattedBlackListTerms = [];
-
 
 	frontendItem.blacklistTerms.forEach((blacklistTerm) => {
 		formattedBlackListTerms.push(blacklistTerm.content);
@@ -66,11 +70,13 @@ function loadMediaIndexJson() {
 				},
 				confirmItemEdit: function (item, editedField, itemIndex){
 					editedField.edit = false;
-					submitModifiedItem(item, itemIndex);
+					submitModifiedItem(item, itemIndex, function(){
+						window.location.href = homeUrl;
+					});
 				},
 				xButtonClicked: function (itemIndex) {
 					axios.delete(`/MediaInfoRecord/${itemIndex}`).then((response) => {
-						window.location.href = "/";
+						window.location.href = homeUrl;
 					});
 				},
 				showModal: function(confirmFunction, modalText){
@@ -87,7 +93,9 @@ function loadMediaIndexJson() {
 					console.log("cancelCloseModal() called.");
 				},
 				addNewBlacklistTerm: function(item, itemIndex){
-					submitModifiedItem(item, itemIndex);
+					submitModifiedItem(item, itemIndex, function(){
+						window.location.href = homeUrl;
+					});
 				}
 			}
 		});
