@@ -7,28 +7,39 @@
 //////////////////////////////////////////////////////////////////////
 
 function submitModifiedItem(item, itemIndex){
-	console.log(item);
 
-	var formattedBlackListTerms = [];
-
-	item.blacklistTerms.forEach((blacklistTerm) => {
-		formattedBlackListTerms.push(blacklistTerm.content)
-	});
-
-	var formattedItem = {
-		"name": item.name.content,
-		"typeSpecificData": {
-			"latestSeason": Number(item.typeSpecificData.latestSeason.content),
-			"latestEpisode": Number(item.typeSpecificData.latestEpisode.content)
-		},
-		"blacklistTerms": formattedBlackListTerms,
-	}
-	console.log(formattedItem);
-
+	var formattedItem = formatFrontendItemToBackendItem(item);
 	
 	axios.put(`/MediaInfoRecord/${itemIndex}`, formattedItem).then((response) => {
 		console.log(response);
 	});
+}
+
+function formatFrontendItemToBackendItem(frontendItem){
+	
+	//deal with formatting each blacklist term
+	var formattedBlackListTerms = [];
+
+
+	frontendItem.blacklistTerms.forEach((blacklistTerm) => {
+		formattedBlackListTerms.push(blacklistTerm.content);
+	});
+
+	//deal with new a blacklist term, if it exists
+	if(frontendItem.newPotentialBlacklistItem.content.length > 0){
+		formattedBlackListTerms.push(frontendItem.newPotentialBlacklistItem.content);
+	}
+
+	var formattedItem = {
+		"name": frontendItem.name.content,
+		"typeSpecificData": {
+			"latestSeason": Number(frontendItem.typeSpecificData.latestSeason.content),
+			"latestEpisode": Number(frontendItem.typeSpecificData.latestEpisode.content)
+		},
+		"blacklistTerms": formattedBlackListTerms,
+	};
+
+	return formattedItem;
 }
 
 
@@ -37,7 +48,7 @@ function loadMediaIndexJson() {
 
 		var mediaInfoList = response.data["media"];
 
-		mediaInfoList = reformatMediaIndexData(mediaInfoList);
+		mediaInfoList = formatBackendItemToFrontendItem(mediaInfoList);
 
 		new Vue({
 			el: '#mediaIndexContent',
@@ -75,12 +86,11 @@ function loadMediaIndexJson() {
 					this.modalVisible = false;
 					console.log("cancelCloseModal() called.");
 				},
-				addNewBlacklistTerm: function(item){
-					item.newPotentialBlacklistItem.edit = false;
-					console.log("blacklistTerm added: ", item.newPotentialBlacklistItem.content);
+				addNewBlacklistTerm: function(item, itemIndex){
+					submitModifiedItem(item, itemIndex);
 				}
 			}
-		})
+		});
 	});
 }
 
@@ -96,8 +106,8 @@ function addEditFieldToObject(obj, relevantKey){
 }
 
 
-function reformatMediaIndexData(mediaIndexData) {
-	mediaIndexData.forEach(item => {
+function formatBackendItemToFrontendItem(mediaInfoData) {
+	mediaInfoData.forEach(item => {
 		Object.keys(item).forEach(key => {
 			if(typeof item[key] === 'object'){
 				var subItem = item[key];
@@ -115,10 +125,8 @@ function reformatMediaIndexData(mediaIndexData) {
 			content: ""
 		}
 	});
-	return mediaIndexData;
+	return mediaInfoData;
 }
-
-loadMediaIndexJson();
 
 
 // register modal component
@@ -160,3 +168,7 @@ new Vue({
 		}
 	}
 });
+
+
+// js execute section
+loadMediaIndexJson();

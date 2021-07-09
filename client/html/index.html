@@ -60,29 +60,33 @@
 							</div>
 						</td>
 						<td>
-							<div v-for="blacklistTerm in item.blacklistTerms">
-								<input 	v-if="blacklistTerm.edit"
-										v-model="blacklistTerm.content" 
-										@blur="confirmItemEdit(item, blacklistTerm, itemIndex);"
-										@keyup.enter="confirmItemEdit(item, blacklistTerm, itemIndex);">
-								<div v-else>
-									<p 	@click="makeFieldEditable(blacklistTerm);" >
-										{{ blacklistTerm.content }}
-									</p>
+							<div id="blacklistPanel" class="flex-direction">
+								<div class="blacklistPanelColumn">
+									<div v-for="blacklistTerm in item.blacklistTerms">
+										<input 	v-if="blacklistTerm.edit"
+												v-model="blacklistTerm.content" 
+												@blur="confirmItemEdit(item, blacklistTerm, itemIndex);"
+												@keyup.enter="confirmItemEdit(item, blacklistTerm, itemIndex);">
+										<div v-else>
+											<p 	@click="makeFieldEditable(blacklistTerm);" >
+												{{ blacklistTerm.content }}
+											</p>
+										</div>
+									</div>
 								</div>
-							</div>
-							<div>
-								<input 	v-if="item.newPotentialBlacklistItem.edit"
-										v-model="item.newPotentialBlacklistItem.content" 
-										@blur="addNewBlacklistTerm(item);"
-										@keyup.enter="addNewBlacklistTerm(item);">
-								<button class="btn" v-if="!item.newPotentialBlacklistItem.edit" v-on:click="item.newPotentialBlacklistItem.edit = true;">
-									Add new blacklist term
-								</button>
+								<div class="blacklistPanelColumn">
+									<input 	v-if="item.newPotentialBlacklistItem.edit"
+											v-model="item.newPotentialBlacklistItem.content" 
+											@blur="addNewBlacklistTerm(item, itemIndex);"
+											@keyup.enter="addNewBlacklistTerm(item, itemIndex);">
+									<button class="btn" v-if="!item.newPotentialBlacklistItem.edit" v-on:click="item.newPotentialBlacklistItem.edit = true;">
+										Add new blacklist term
+									</button>
+								</div>
 							</div>
 						</td>
 						<td>
-							<button class="btn" @click="showModal(() => { xButtonClicked(itemIndex); }, `Are you sure you want to remove ${item.name.content}?`);"><i class="fa fa-close"></i></button>
+							<button class="btn" i @click="showModal(() => { xButtonClicked(itemIndex); }, `Are you sure you want to remove ${item.name.content}?`);"><i class="fa fa-close"></i></button>
 						</td>
 					</tr>
 				</table>
