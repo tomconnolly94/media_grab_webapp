@@ -38,7 +38,7 @@ p{
 #mediaIndexContent th {
     padding-top: 12px;
     padding-bottom: 12px;
-    text-align: left;
+    /* text-align: left; */
     background-color: #3b72ce;
     color: white;
 }
@@ -281,5 +281,14 @@ input[type=submit]:hover {
         width: 100%;
     }
 }
+
+#blacklistTermRemoveButton {
+    margin: 0px 5px; 
+    padding:0px 4px 0px 3px; 
+    float:left; 
+    font-size: 13px;
+}
+
+
   
 /* blacklistPanel styles */

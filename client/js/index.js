@@ -74,10 +74,24 @@ function loadMediaIndexJson() {
 						window.location.href = homeUrl;
 					});
 				},
-				xButtonClicked: function (itemIndex) {
+				deleteMediaInfoRecord: function (itemIndex) {
 					axios.delete(`/MediaInfoRecord/${itemIndex}`).then((response) => {
 						window.location.href = homeUrl;
 					});
+				},
+				removeBlacklistTerm: function (item, itemIndex, blacklistTermForRemoval){
+
+					for (var i = item.blacklistTerms.length - 1; i >= 0; i--) {
+						var blacklistTerm = item.blacklistTerms[i];
+						if(blacklistTerm.content == blacklistTermForRemoval.content){
+							item.blacklistTerms.splice(i, 1);
+							submitModifiedItem(item, itemIndex, function(){
+								//window.location.href = homeUrl;
+							});
+							break;
+						}
+					}
+
 				},
 				showModal: function(confirmFunction, modalText){
 					this.modalText = modalText;

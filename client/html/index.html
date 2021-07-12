@@ -68,9 +68,12 @@
 												@blur="confirmItemEdit(item, blacklistTerm, itemIndex);"
 												@keyup.enter="confirmItemEdit(item, blacklistTerm, itemIndex);">
 										<div v-else>
-											<p 	@click="makeFieldEditable(blacklistTerm);" >
-												{{ blacklistTerm.content }}
-											</p>
+											<div>
+												<button id="blacklistTermRemoveButton" class="btn" i @click="showModal(() => { removeBlacklistTerm(item, itemIndex, blacklistTerm); }, `Are you sure you want to remove blacklist term ${blacklistTerm.content}?`);"><i class="fa fa-close"></i></button>
+												<p 	@click="makeFieldEditable(blacklistTerm);" >
+													{{ blacklistTerm.content }}
+												</p>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -79,14 +82,14 @@
 											v-model="item.newPotentialBlacklistItem.content" 
 											@blur="addNewBlacklistTerm(item, itemIndex);"
 											@keyup.enter="addNewBlacklistTerm(item, itemIndex);">
-									<button class="btn" v-if="!item.newPotentialBlacklistItem.edit" v-on:click="item.newPotentialBlacklistItem.edit = true;">
-										Add new blacklist term
+									<button class="btn" v-else v-on:click="item.newPotentialBlacklistItem.edit = true;">
+										<i class="fa fa-plus" aria-hidden="true"></i>
 									</button>
 								</div>
 							</div>
 						</td>
 						<td>
-							<button class="btn" i @click="showModal(() => { xButtonClicked(itemIndex); }, `Are you sure you want to remove ${item.name.content}?`);"><i class="fa fa-close"></i></button>
+							<button class="btn" i @click="showModal(() => { deleteMediaInfoRecord(itemIndex); }, `Are you sure you want to remove ${item.name.content}?`);"><i class="fa fa-close"></i></button>
 						</td>
 					</tr>
 				</table>
