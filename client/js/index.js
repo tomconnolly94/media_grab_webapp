@@ -47,6 +47,17 @@ function formatFrontendItemToBackendItem(frontendItem){
 }
 
 
+function addNewBlacklistTermToItemModel(item){
+
+	var newBlacklistTerm = {
+		edit: false,
+		content: item.newPotentialBlacklistItem.content
+	}
+
+	item.blacklistTerms.push(newBlacklistTerm);
+}
+
+
 function loadMediaIndexJson() {
 	axios.get(`/MediaInfoRecords`).then((response) => {
 
@@ -104,11 +115,12 @@ function loadMediaIndexJson() {
 				},
 				cancelCloseModal: function(){
 					this.modalVisible = false;
-					console.log("cancelCloseModal() called.");
 				},
 				addNewBlacklistTerm: function(item, itemIndex){
 					submitModifiedItem(item, itemIndex, function(){
-						window.location.href = homeUrl;
+						addNewBlacklistTermToItemModel(item);
+						item.newPotentialBlacklistItem.edit = false;
+						item.newPotentialBlacklistItem.content = "";
 					});
 				}
 			}
