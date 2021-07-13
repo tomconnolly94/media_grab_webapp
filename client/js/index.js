@@ -17,6 +17,8 @@ function submitModifiedItem(item, itemIndex, successCallback){
 	})
     .catch(err => {
     	console.log(err);
+		//redirect to make sure any local changes that failed are removed.
+		refreshPage();
     });
 }
 
@@ -58,6 +60,11 @@ function addNewBlacklistTermToItemModel(item){
 }
 
 
+function refreshPage(){
+	window.location.href = homeUrl;
+}
+
+
 function loadMediaIndexJson() {
 	axios.get(`/MediaInfoRecords`).then((response) => {
 
@@ -75,19 +82,25 @@ function loadMediaIndexJson() {
 					modalText: null,
 				}
 			},
+			mounted() {
+				this.$root.$on("new-item-added", (newItem) => {
+					//this.content.push(newItem);
+					console.log("caught: ", newItem);
+				});
+			},
 			methods: {
 				makeFieldEditable: function (field){
 					field.edit = true;
 				},
 				confirmItemEdit: function (item, editedField, itemIndex){
 					editedField.edit = false;
-					submitModifiedItem(item, itemIndex, function(){
-						window.location.href = homeUrl;
-					});
+					submitModifiedItem(item, itemIndex, function(){});
 				},
 				deleteMediaInfoRecord: function (itemIndex) {
 					axios.delete(`/MediaInfoRecord/${itemIndex}`).then((response) => {
-						window.location.href = homeUrl;
+						this.content.splice(itemIndex, 1);
+					}).catch(function(){
+						refreshPage()
 					});
 				},
 				removeBlacklistTerm: function (item, itemIndex, blacklistTermForRemoval){
@@ -96,9 +109,7 @@ function loadMediaIndexJson() {
 						var blacklistTerm = item.blacklistTerms[i];
 						if(blacklistTerm.content == blacklistTermForRemoval.content){
 							item.blacklistTerms.splice(i, 1);
-							submitModifiedItem(item, itemIndex, function(){
-								//window.location.href = homeUrl;
-							});
+							submitModifiedItem(item, itemIndex, function(){});
 							break;
 						}
 					}
@@ -154,7 +165,7 @@ function formatBackendItemToFrontendItem(mediaInfoData) {
 			}			
 		});
 
-		item.newPotentialBlacklistItem = {
+		item["newPotentialBlacklistItem"] = {
 			edit: false,
 			content: ""
 		}
@@ -198,6 +209,52 @@ new Vue({
 				console.log("runMediaGrab successfully run");
 				this.responseMessage = `MediaGrab run at ${this.startTime}`
 				this.running = false;
+			});
+		}
+	}
+});
+
+
+new Vue({
+	el: '#inputPanel',
+	data() {
+		return {
+		}
+	},
+	methods: {
+		submitNewMediaInfoRecord: function (){
+			console.log(document.newMediaInfoRecord);
+		
+			// extract data
+			var mediaName = document.newMediaInfoRecord[0].value;
+			var latestSeason = document.newMediaInfoRecord[1].value;
+			var latestEpisode = document.newMediaInfoRecord[2].value;
+			var blacklistTerms = document.newMediaInfoRecord[3].value.split(/[\n,]+/);
+		
+			var newItem = {
+				mediaName: mediaName,
+				latestSeason: latestSeason,
+				latestEpisode: latestEpisode,
+				blacklistTerms: blacklistTerms.join()
+			};
+			
+			console.log(newItem);
+		
+			axios.post(`/MediaInfoRecord/0`, newItem).then((response) => {
+
+				var newItem = formatBackendItemToFrontendItem([{
+					"name": mediaName,
+					"typeSpecificData": {
+						"latestSeason": latestSeason,
+						"latestEpisode": latestEpisode
+					},
+					"blacklistTerms": blacklistTerms
+				}]);
+
+				this.$root.$emit("new-item-added", newItem);
+
+			}).catch(function(){
+				//refreshPage();
 			});
 		}
 	}

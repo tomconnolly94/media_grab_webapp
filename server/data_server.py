@@ -15,13 +15,13 @@ def serveMediaInfo():
     return mediaIndexFileContent
 
 
-def submitMediaInfoRecord(form):
+def submitMediaInfoRecord(data):
 
     # extract data
-    mediaName = form.get('mediaName')
-    latestSeason = int(form.get('latestSeason'))
-    latestEpisode = int(form.get('latestEpisode'))
-    blacklistTerms = form.get('blacklistTerms')
+    mediaName = data['mediaName']
+    latestSeason = int(data['latestSeason'])
+    latestEpisode = int(data['latestEpisode'])
+    blacklistTerms = data['blacklistTerms']
 
     blacklistTerms = [ term.replace(" ", "") for term in blacklistTerms.split(",") if len(term) > 0]
 

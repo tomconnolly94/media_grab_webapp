@@ -5,6 +5,7 @@ from flask import Flask, request, redirect, Response, send_from_directory
 from dotenv import load_dotenv
 from os.path import join, dirname
 import os
+import json
 
 # internal dependencies
 from server.page_server import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule, serveNodeModuleMapModule
@@ -40,11 +41,11 @@ def MediaInfoRecords():
 @app.route('/MediaInfoRecord/<recordIndex>', methods=["POST", "PUT", "DELETE"])
 def MediaIndexRecord(recordIndex):
     if request.method == "POST":
-        submitMediaInfoRecord(request.form)
-        return redirect("/")
+        submitMediaInfoRecord(json.loads(request.data))
+        return getResponse(200, "got post request, all good") 
     elif request.method == "DELETE":
         if deleteMediaInfoRecord(int(recordIndex)):
-            return getResponse(200, "got delete request, all good") 
+            return getResponse(200, "got delete request, all good")
         else:
             return getResponse(500, "delete request failed") 
     elif request.method == "PUT":

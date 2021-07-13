@@ -28,8 +28,6 @@
 					<tr v-for="(item, itemIndex) in content"
 						v-bind:class="item['typeSpecificData']['latestEpisode'].content != 1 ? 'active' : 'inactive'">
 
-
-
 						<td>
 							<input 	type="text" v-if="item['name'].edit" 
 									v-model="item['name'].content"							
@@ -110,56 +108,59 @@
 			</div>
 		</div>
 
-		<div id="inputPanel" class="panel">
-			<h3>Add new MediaIndex record:</h3>
+		
+		<script type="text/x-template" id="inputPanel-template">
+			<div id="inputPanel" class="panel">
+				<h3>Add new MediaIndex record:</h3>
 
-			<form action="/MediaInfoRecord/0" method="POST">
+				<form name="newMediaInfoRecord">
 
-				<div class="row">
-					<div class="col-25">
-						<label for="mediaName">Media Name</label>
+					<div class="row">
+						<div class="col-25">
+							<label for="mediaName">Media Name</label>
+						</div>
+						<div class="col-75">
+							<input type="text" id="mediaName" name="mediaName"
+								placeholder="Enter the name of the tv show you want to watch..">
+						</div>
 					</div>
-					<div class="col-75">
-						<input type="text" id="mediaName" name="mediaName"
-							placeholder="Enter the name of the tv show you want to watch..">
-					</div>
-				</div>
 
 
-				<div class="row">
-					<div class="col-25">
-						<label for="latestSeason">Latest Season:</label>
+					<div class="row">
+						<div class="col-25">
+							<label for="latestSeason">Latest Season:</label>
+						</div>
+						<div class="col-75">
+							<input type="number" id="latestSeason" name="latestSeason" min="1">
+						</div>
 					</div>
-					<div class="col-75">
-						<input type="number" id="latestSeason" name="latestSeason" min="1">
-					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-25">
-						<label for="latestEpisode">Latest Episode:</label>
+					<div class="row">
+						<div class="col-25">
+							<label for="latestEpisode">Latest Episode:</label>
+						</div>
+						<div class="col-75">
+							<input type="number" id="latestEpisode" name="latestEpisode" min="1">
+						</div>
 					</div>
-					<div class="col-75">
-						<input type="number" id="latestEpisode" name="latestEpisode" min="1">
-					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-25">
-						<label for="blacklistTerms">Blacklist terms:</label>
+					<div class="row">
+						<div class="col-25">
+							<label for="blacklistTerms">Blacklist terms:</label>
+						</div>
+						<div class="col-75">
+							<textarea id="blacklistTerms" name="blacklistTerms"
+								placeholder="Enter terms to avoid while searching for this show, separated by commas.."
+								style="height:200px"></textarea>
+						</div>
 					</div>
-					<div class="col-75">
-						<textarea id="blacklistTerms" name="blacklistTerms"
-							placeholder="Enter terms to avoid while searching for this show, separated by commas.."
-							style="height:200px"></textarea>
+					<div class="row">
+						<input type="button" @click="submitNewMediaInfoRecord();" value="Submit"/>
 					</div>
-				</div>
-				<div class="row">
-					<input type="submit" value="Submit">
-				</div>
 
-			</form>
-		</div>
+				</form>
+			</div>
+		</script>
 
 		<div id="triggerPanel" class="panel">
 			<input id="runMediaGrabButton" type="submit" value="Run MediaGrab" @click="runMediaGrab">
