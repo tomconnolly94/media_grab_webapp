@@ -90,6 +90,9 @@ function loadMediaIndexJson() {
 			mounted() {
 				this.$bus.$on("new-item-added", (newItem, successCallback) => {
 					this.content.push(newItem);
+					this.content.sort(function(a, b) { 
+						return a.name.content.localeCompare(b.name.content);
+					});
 					successCallback();
 				});
 			},
@@ -234,7 +237,7 @@ new Vue({
 			var mediaName = newRecordForm[0].value;
 			var latestSeason = newRecordForm[1].value;
 			var latestEpisode = newRecordForm[2].value;
-			var blacklistTerms = newRecordForm[3].value.split(/[\n,]+/);
+			var blacklistTerms = newRecordForm[3].value.length > 0 ? newRecordForm[3].value.split(/[\n,]+/) : [];
 		
 			var newItem = {
 				mediaName: mediaName,
