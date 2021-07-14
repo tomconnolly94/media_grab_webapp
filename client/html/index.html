@@ -108,62 +108,59 @@
 			</div>
 		</div>
 
-		
-		<script type="text/x-template" id="inputPanel-template">
-			<div id="inputPanel" class="panel">
-				<h3>Add new MediaIndex record:</h3>
+		<div id="inputPanel" class="panel">
+			<h3>Add new MediaIndex record:</h3>
 
-				<form name="newMediaInfoRecord">
+			<form name="newMediaInfoRecord">
 
-					<div class="row">
-						<div class="col-25">
-							<label for="mediaName">Media Name</label>
-						</div>
-						<div class="col-75">
-							<input type="text" id="mediaName" name="mediaName"
-								placeholder="Enter the name of the tv show you want to watch..">
-						</div>
+				<div class="row">
+					<div class="col-25">
+						<label for="mediaName">Media Name</label>
 					</div>
-
-
-					<div class="row">
-						<div class="col-25">
-							<label for="latestSeason">Latest Season:</label>
-						</div>
-						<div class="col-75">
-							<input type="number" id="latestSeason" name="latestSeason" min="1">
-						</div>
+					<div class="col-75">
+						<input type="text" id="mediaName" name="mediaName"
+							placeholder="Enter the name of the tv show you want to watch..">
 					</div>
+				</div>
 
-					<div class="row">
-						<div class="col-25">
-							<label for="latestEpisode">Latest Episode:</label>
-						</div>
-						<div class="col-75">
-							<input type="number" id="latestEpisode" name="latestEpisode" min="1">
-						</div>
-					</div>
 
-					<div class="row">
-						<div class="col-25">
-							<label for="blacklistTerms">Blacklist terms:</label>
-						</div>
-						<div class="col-75">
-							<textarea id="blacklistTerms" name="blacklistTerms"
-								placeholder="Enter terms to avoid while searching for this show, separated by commas.."
-								style="height:200px"></textarea>
-						</div>
+				<div class="row">
+					<div class="col-25">
+						<label for="latestSeason">Latest Season:</label>
 					</div>
-					<div class="row">
-						<input type="button" @click="submitNewMediaInfoRecord();" value="Submit"/>
+					<div class="col-75">
+						<input type="number" id="latestSeason" name="latestSeason" min="1">
 					</div>
+				</div>
 
-				</form>
-			</div>
-		</script>
+				<div class="row">
+					<div class="col-25">
+						<label for="latestEpisode">Latest Episode:</label>
+					</div>
+					<div class="col-75">
+						<input type="number" id="latestEpisode" name="latestEpisode" min="1">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-25">
+						<label for="blacklistTerms">Blacklist terms:</label>
+					</div>
+					<div class="col-75">
+						<textarea id="blacklistTerms" name="blacklistTerms"
+							placeholder="Enter terms to avoid while searching for this show, separated by commas.."
+							style="height:200px"></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<button class="main-button" type="button"@click="submitNewMediaInfoRecord">Submit</button>
+				</div>
+
+			</form>
+		</div>
 
 		<div id="triggerPanel" class="panel">
-			<input id="runMediaGrabButton" type="submit" value="Run MediaGrab" @click="runMediaGrab">
+			<button class="main-button" id="runMediaGrabButton" type="button" @click="runMediaGrab">Run MediaGrab</button>
 			
 			<div class="loader" v-if="running"></div>
 

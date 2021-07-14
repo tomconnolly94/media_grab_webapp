@@ -76,8 +76,8 @@ label {
     display: inline-block;
 }
 
-input[type=submit] {
-    background-color: #4CAF50;
+button.main-button {
+    background-color: #3b72ce;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -87,8 +87,9 @@ input[type=submit] {
     margin: 10px;
 }
 
-input[type=submit]:hover {
-    background-color: #45a049;
+button.main-button:hover {
+    background-color: #76a4f3;
+    color: #000000;
 }
 
 .col-25 {
@@ -138,6 +139,7 @@ input[type=submit]:hover {
 /* Darker background on mouse-over */
 .btn:hover {
     background-color: grey;
+    color: #000000; 
 } 
 
 /* button styles */

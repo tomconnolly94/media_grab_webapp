@@ -6,6 +6,11 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+// create bus for communication between vue instances
+Vue.prototype.$bus = new Vue();
+
+
+// const vars
 var homeUrl = "/"
 
 function submitModifiedItem(item, itemIndex, successCallback){
@@ -83,9 +88,9 @@ function loadMediaIndexJson() {
 				}
 			},
 			mounted() {
-				this.$root.$on("new-item-added", (newItem) => {
-					//this.content.push(newItem);
-					console.log("caught: ", newItem);
+				this.$bus.$on("new-item-added", (newItem, successCallback) => {
+					this.content.push(newItem);
+					successCallback();
 				});
 			},
 			methods: {
@@ -223,13 +228,13 @@ new Vue({
 	},
 	methods: {
 		submitNewMediaInfoRecord: function (){
-			console.log(document.newMediaInfoRecord);
-		
+			var newRecordForm = document.newMediaInfoRecord;
+
 			// extract data
-			var mediaName = document.newMediaInfoRecord[0].value;
-			var latestSeason = document.newMediaInfoRecord[1].value;
-			var latestEpisode = document.newMediaInfoRecord[2].value;
-			var blacklistTerms = document.newMediaInfoRecord[3].value.split(/[\n,]+/);
+			var mediaName = newRecordForm[0].value;
+			var latestSeason = newRecordForm[1].value;
+			var latestEpisode = newRecordForm[2].value;
+			var blacklistTerms = newRecordForm[3].value.split(/[\n,]+/);
 		
 			var newItem = {
 				mediaName: mediaName,
@@ -237,9 +242,7 @@ new Vue({
 				latestEpisode: latestEpisode,
 				blacklistTerms: blacklistTerms.join()
 			};
-			
-			console.log(newItem);
-		
+
 			axios.post(`/MediaInfoRecord/0`, newItem).then((response) => {
 
 				var newItem = formatBackendItemToFrontendItem([{
@@ -249,13 +252,26 @@ new Vue({
 						"latestEpisode": latestEpisode
 					},
 					"blacklistTerms": blacklistTerms
-				}]);
+				}])[0];
 
-				this.$root.$emit("new-item-added", newItem);
+				var vueInstance = this;
+
+				this.$bus.$emit("new-item-added", newItem, function(){
+					vueInstance.resetForm();
+				});
 
 			}).catch(function(){
-				//refreshPage();
+				refreshPage();
 			});
+		},
+		resetForm: function(){
+			var newRecordForm = document.newMediaInfoRecord;
+
+			//clear fields
+			newRecordForm[0].value = "";
+			newRecordForm[1].value = "";
+			newRecordForm[2].value = "";
+			newRecordForm[3].value = "";
 		}
 	}
 });
