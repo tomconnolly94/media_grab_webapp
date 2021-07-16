@@ -8,8 +8,8 @@ import os
 import json
 
 # internal dependencies
-from server.page_server import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule, serveNodeModuleMapModule
-from server.data_server import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord, updateMediaInfoRecord, runMediaGrab
+from server.pageServer import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule, serveNodeModuleMapModule
+from server.dataServer import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord, updateMediaInfoRecord, runMediaGrab
 
 #create app
 app = Flask(__name__, template_folder="client")

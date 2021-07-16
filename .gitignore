@@ -50,5 +50,6 @@ Thumbs.db
 
 # virtualenv
 /venv
+/venv-dev
 .env
 

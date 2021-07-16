@@ -6,7 +6,7 @@ import os
 from server.interfaces.MediaIndexFileInterface import removeRecordFromMediaInfoFile, updateRecordInMediaInfoFile, writeNewRecordToMediaInfoFile
 
 # internal dependencies
-from server.page_server import serveIndex
+from server.pageServer import serveIndex
 import subprocess
 
 def serveMediaInfo():
