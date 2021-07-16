@@ -213,10 +213,17 @@ new Vue({
 			this.running = true;
 			this.startTime = new Date().toLocaleString();
 
+			function cleanUpMediaGrabRun(vueComponent, success){
+				var successStr = success ? "successfully" : "unsuccessfully";
+				console.log(`runMediaGrab finished ${successStr}.`);
+				vueComponent.responseMessage = `MediaGrab run ${successStr} at ${vueComponent.startTime}`
+				vueComponent.running = false;
+			}
+
 			axios.get(`/runMediaGrab`).then((response) => {
-				console.log("runMediaGrab successfully run");
-				this.responseMessage = `MediaGrab run at ${this.startTime}`
-				this.running = false;
+				cleanUpMediaGrabRun(this, true);
+			}).catch(function(){
+				cleanUpMediaGrabRun(this, false);
 			});
 		}
 	}
