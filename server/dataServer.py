@@ -3,11 +3,10 @@
 # external dependencies
 import json
 import os
-from server.interfaces.MediaIndexFileInterface import removeRecordFromMediaInfoFile, updateRecordInMediaInfoFile, writeNewRecordToMediaInfoFile
+import subprocess
 
 # internal dependencies
-from server.pageServer import serveIndex
-import subprocess
+from server.interfaces.MediaIndexFileInterface import removeRecordFromMediaInfoFile, updateRecordInMediaInfoFile, writeNewRecordToMediaInfoFile
 
 def serveMediaInfo():
     f = open(os.getenv("MEDIA_INDEX_FILE_LOCATION"), "r")
@@ -36,7 +35,7 @@ def updateMediaInfoRecord(newMediaIndexRecord, recordIndex):
     newMediaIndexRecord = json.loads(newMediaIndexRecord)
 
     return updateRecordInMediaInfoFile(newMediaIndexRecord, recordIndex)
-    
+
 
 def runMediaGrab():
     mediaGrabDir = os.getenv("MEDIA_GRAB_DIRECTORY")
