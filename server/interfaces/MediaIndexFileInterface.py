@@ -17,7 +17,6 @@ def loadMediaFile():
 	:return: a list of MediaInfoRecord's loaded from the MediaIndex.json
 	"""
 	mediaIndexFileLocation = os.getenv("MEDIA_INDEX_FILE_LOCATION")
-	#logging.info(f"MediaIndex File: {mediaIndexFileLocation}")
 
 	with open(mediaIndexFileLocation, "r") as mediaIndexfile:
 		return json.loads(mediaIndexfile.read())["media"]
