@@ -25,6 +25,11 @@ div.container {
     max-width: inherit;
 }
 
+@media (max-width: 768px) {
+    label{
+        font-size: 26px;
+    }
+}
 /* general styles */
 
 

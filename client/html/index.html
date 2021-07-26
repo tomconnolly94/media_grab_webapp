@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="col-lg-8">
 				<div id="displayPanel" class="panel">
-					<h3>Current MediaIndex.json content:</h3>
+					<h2>Current MediaIndex.json content:</h2>
 
 					<div id="mediaIndexContent">
 						<table>
@@ -73,9 +73,9 @@
 														@keyup.enter="confirmItemEdit(item, blacklistTerm, itemIndex);">
 												<div v-else>
 													<button id="blacklistTermRemoveButton" class="btn" i @click="showModal(() => { removeBlacklistTerm(item, itemIndex, blacklistTerm); }, `Are you sure you want to remove blacklist term ${blacklistTerm.content}?`);"><i class="fa fa-close"></i></button>
-													<p 	@click="makeFieldEditable(blacklistTerm);" >
+													<label 	@click="makeFieldEditable(blacklistTerm);" >
 														{{ blacklistTerm.content }}
-													</p>
+													</label>
 												</div>
 											</div>
 										</div>
@@ -115,7 +115,7 @@
 
 			<div class="col-lg-4">
 				<div id="inputPanel" class="panel">
-					<h3>Add new MediaIndex record:</h3>
+					<h2>Add new MediaIndex record:</h2>
 
 					<form name="newMediaInfoRecord" class="inputForm">
 
