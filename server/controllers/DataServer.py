@@ -3,11 +3,11 @@
 # external dependencies
 import json
 import os
-from server.interfaces.MediaIndexFileInterface import removeRecordFromMediaInfoFile, updateRecordInMediaInfoFile, writeNewRecordToMediaInfoFile
+import subprocess
 
 # internal dependencies
-from server.pageServer import serveIndex
-import subprocess
+from server.interfaces.MediaIndexFileInterface import removeRecordFromMediaInfoFile, updateRecordInMediaInfoFile, writeNewRecordToMediaInfoFile
+
 
 def serveMediaInfo():
     f = open(os.getenv("MEDIA_INDEX_FILE_LOCATION"), "r")
@@ -25,7 +25,9 @@ def submitMediaInfoRecord(data):
 
     blacklistTerms = [ term.replace(" ", "") for term in blacklistTerms.split(",") if len(term) > 0]
 
-    return writeNewRecordToMediaInfoFile(mediaName, latestSeason, latestEpisode, blacklistTerms)
+    success = writeNewRecordToMediaInfoFile(mediaName, latestSeason, latestEpisode, blacklistTerms)
+
+    return success
 
 
 def deleteMediaInfoRecord(recordIndex):
@@ -36,7 +38,7 @@ def updateMediaInfoRecord(newMediaIndexRecord, recordIndex):
     newMediaIndexRecord = json.loads(newMediaIndexRecord)
 
     return updateRecordInMediaInfoFile(newMediaIndexRecord, recordIndex)
-    
+
 
 def runMediaGrab():
     mediaGrabDir = os.getenv("MEDIA_GRAB_DIRECTORY")

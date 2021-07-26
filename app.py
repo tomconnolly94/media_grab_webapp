@@ -1,15 +1,15 @@
 #!/venv/bin/python
 
 # external dependencies
-from flask import Flask, request, redirect, Response, send_from_directory
+from flask import Flask, request, Response, send_from_directory
 from dotenv import load_dotenv
 from os.path import join, dirname
 import os
 import json
 
 # internal dependencies
-from server.pageServer import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule, serveNodeModuleMapModule
-from server.dataServer import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord, updateMediaInfoRecord, runMediaGrab
+from server.controllers.PageServer import serveIndex, serveNodeModule, serveCustomJsModule, serveCustomCssModule, serveNodeModuleMapModule
+from server.controllers.DataServer import serveMediaInfo, submitMediaInfoRecord, deleteMediaInfoRecord, updateMediaInfoRecord, runMediaGrab
 
 #create app
 app = Flask(__name__, template_folder="client")
