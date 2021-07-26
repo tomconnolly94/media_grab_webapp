@@ -26,9 +26,9 @@
 						<table>
 							<tr>
 								<th>Name</th>
-								<th>Latest Season</th>
-								<th>Latest Episode</th>
-								<th>Blacklist terms</th>
+								<th>Season</th>
+								<th>Episode</th>
+								<th>Blacklist</th>
 								<th>Remove</th>
 							</tr>
 							<tr v-for="(item, itemIndex) in content"
@@ -64,24 +64,22 @@
 									</div>
 								</td>
 								<td>
-									<div id="blacklistPanel" class="flex-direction">
-										<div class="blacklistPanelColumn">
+									<div id="blacklistPanel" class="flex-direction row">
+										<div class="blacklistPanelColumn col-md-9">
 											<div v-for="blacklistTerm in item.blacklistTerms">
 												<input 	v-if="blacklistTerm.edit"
 														v-model="blacklistTerm.content" 
 														@blur="confirmItemEdit(item, blacklistTerm, itemIndex);"
 														@keyup.enter="confirmItemEdit(item, blacklistTerm, itemIndex);">
 												<div v-else>
-													<div>
-														<button id="blacklistTermRemoveButton" class="btn" i @click="showModal(() => { removeBlacklistTerm(item, itemIndex, blacklistTerm); }, `Are you sure you want to remove blacklist term ${blacklistTerm.content}?`);"><i class="fa fa-close"></i></button>
-														<p 	@click="makeFieldEditable(blacklistTerm);" >
-															{{ blacklistTerm.content }}
-														</p>
-													</div>
+													<button id="blacklistTermRemoveButton" class="btn" i @click="showModal(() => { removeBlacklistTerm(item, itemIndex, blacklistTerm); }, `Are you sure you want to remove blacklist term ${blacklistTerm.content}?`);"><i class="fa fa-close"></i></button>
+													<p 	@click="makeFieldEditable(blacklistTerm);" >
+														{{ blacklistTerm.content }}
+													</p>
 												</div>
 											</div>
 										</div>
-										<div class="blacklistPanelColumn">
+										<div class="blacklistPanelColumn col-md-3">
 											<input 	v-if="item.newPotentialBlacklistItem.edit"
 													v-model="item.newPotentialBlacklistItem.content" 
 													@blur="addNewBlacklistTerm(item, itemIndex);"
@@ -102,10 +100,10 @@
 							<modal v-if="modalVisible">
 								<h3 slot="header">{{ modalText }}</h3>
 								<div slot="footer">
-									<button class="modal-default-button" @click="confirmCloseModal();">
+									<button class="btn modal-default-button" @click="confirmCloseModal();">
 									OK
 									</button>
-									<button class="modal-default-button" @click="cancelCloseModal();">
+									<button class="btn modal-default-button" @click="cancelCloseModal();">
 									Cancel
 									</button>
 								</div>
@@ -161,14 +159,14 @@
 							</div>
 						</div>
 						<div class="row">
-							<button class="main-button" type="button"@click="submitNewMediaInfoRecord">Submit</button>
+							<button class="btn main-button" type="button"@click="submitNewMediaInfoRecord">Submit</button>
 						</div>
 
 					</form>
 				</div>
 
 				<div id="triggerPanel" class="panel">
-					<button class="main-button" id="runMediaGrabButton" type="button" @click="runMediaGrab">Run MediaGrab</button>
+					<button class="btn main-button" id="runMediaGrabButton" type="button" @click="runMediaGrab">Run MediaGrab</button>
 					
 					<div class="loader" v-if="running"></div>
 

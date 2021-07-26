@@ -7,6 +7,8 @@
 
 p{
     margin: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .panel {
@@ -42,7 +44,7 @@ p{
     padding-top: 12px;
     padding-bottom: 12px;
     /* text-align: left; */
-    background-color: #3b72ce;
+    background-color: #000000;
     color: white;
 }
 
@@ -79,20 +81,26 @@ label {
     display: inline-block;
 }
 
-button.main-button {
-    background-color: #3b72ce;
+button.btn{
+    background-color: #000000;
     color: white;
-    padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    /*float: right;*/
     margin: 10px;
 }
 
 button.main-button:hover {
-    background-color: #76a4f3;
+    background-color: #00000091;
     color: #000000;
+}
+
+button.main-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    margin: 10px;
+    padding: 12px 20px;
 }
 
 .col-25 {
