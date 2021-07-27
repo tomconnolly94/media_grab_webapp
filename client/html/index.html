@@ -165,13 +165,16 @@
 					</form>
 				</div>
 
-				<div id="triggerPanel" class="panel panel-default">
-					<div class="panel-body">
-						<button class="btn main-button" id="runMediaGrabButton" type="button" @click="runMediaGrab">Run MediaGrab</button>
-						
-						<span class="loader" v-if="running"></span>
-
-						<p id="runMediaGrabResponsePanel">{{ responseMessage }}</p>
+				<div id="triggerPanel" class="container panel panel-default">
+					<div class="row panel-body">
+						<div class="col-lg-5">
+							<button class="btn main-button" id="runMediaGrabButton" type="button" @click="runMediaGrab">Run MediaGrab</button>
+							
+							<span class="loader" v-if="running"></span>
+						</div>
+						<div class="col-lg-7">
+							<p id="runMediaGrabResponsePanel">{{ responseMessage }}</p>
+						</div>
 					</div>
 				</div>
 			</div>
