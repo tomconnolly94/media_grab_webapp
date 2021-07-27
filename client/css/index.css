@@ -279,7 +279,7 @@ input {
 }
 
 #triggerPanel{
-    height: 100px;
+    height: 200px;
 }
 
 /* triggerPanel styles */
@@ -300,6 +300,7 @@ input {
 
 .blacklistPanelColumn .btn{
     float: right;
+    margin: 1px;
 }
 
 /* Clear floats after the columns */
@@ -317,10 +318,10 @@ input {
 }
 
 #blacklistTermRemoveButton {
-    margin: 0px 5px; 
+    margin: 5px 10px;
     padding:0px 4px 0px 3px; 
     float:left; 
-    font-size: 13px;
+    font-size: 16px;
 }
 
 

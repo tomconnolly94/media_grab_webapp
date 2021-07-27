@@ -65,7 +65,7 @@
 								</td>
 								<td>
 									<div id="blacklistPanel" class="flex-direction row">
-										<div class="blacklistPanelColumn col-md-9">
+										<div class="blacklistPanelColumn col-md-10">
 											<div v-for="blacklistTerm in item.blacklistTerms">
 												<input 	v-if="blacklistTerm.edit"
 														v-model="blacklistTerm.content" 
@@ -79,7 +79,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="blacklistPanelColumn col-md-3">
+										<div class="blacklistPanelColumn col-md-2">
 											<input 	v-if="item.newPotentialBlacklistItem.edit"
 													v-model="item.newPotentialBlacklistItem.content" 
 													@blur="addNewBlacklistTerm(item, itemIndex);"
@@ -165,12 +165,14 @@
 					</form>
 				</div>
 
-				<div id="triggerPanel" class="panel">
-					<button class="btn main-button" id="runMediaGrabButton" type="button" @click="runMediaGrab">Run MediaGrab</button>
-					
-					<div class="loader" v-if="running"></div>
+				<div id="triggerPanel" class="panel panel-default">
+					<div class="panel-body">
+						<button class="btn main-button" id="runMediaGrabButton" type="button" @click="runMediaGrab">Run MediaGrab</button>
+						
+						<span class="loader" v-if="running"></span>
 
-					<p id="runMediaGrabResponsePanel">{{ responseMessage }}</p>
+						<p id="runMediaGrabResponsePanel">{{ responseMessage }}</p>
+					</div>
 				</div>
 			</div>
 
