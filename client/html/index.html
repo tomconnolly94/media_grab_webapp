@@ -167,12 +167,12 @@
 
 				<div id="triggerPanel" class="container panel panel-default">
 					<div class="row panel-body">
-						<div class="col-lg-5">
+						<div :class="spinnerParentClass">
 							<button class="btn main-button" id="runMediaGrabButton" type="button" @click="runMediaGrab">Run MediaGrab</button>
 							
 							<span class="loader" v-if="running"></span>
 						</div>
-						<div class="col-lg-7">
+						<div class="col-sm">
 							<p id="runMediaGrabResponsePanel">{{ responseMessage }}</p>
 						</div>
 					</div>

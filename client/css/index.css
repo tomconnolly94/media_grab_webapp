@@ -264,7 +264,7 @@ input {
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
     float: left;
-    margin: auto 30px;
+    margin: 10px;
 }
 
 /* Safari */

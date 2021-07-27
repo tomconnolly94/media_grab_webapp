@@ -201,7 +201,9 @@ new Vue({
 		return {
 			responseMessage: "",
 			running: false,
-			startTime: null
+			startTime: null,
+			originalSpinnerParentClass: "col-sm-6 col-xl-4",
+			spinnerParentClass: this.originalSpinnerParentClass
 		}
 	},
 	methods: {
@@ -212,12 +214,14 @@ new Vue({
 
 			this.running = true;
 			this.startTime = new Date().toLocaleString();
+			this.spinnerParentClass = "col-sm-8"
 
 			function cleanUpMediaGrabRun(vueComponent, success){
 				var successStr = success ? "successfully" : "unsuccessfully";
 				console.log(`runMediaGrab finished ${successStr}.`);
 				vueComponent.responseMessage = `MediaGrab run ${successStr} at ${vueComponent.startTime}`
 				vueComponent.running = false;
+				vueComponent.spinnerParentClass = vueComponent.originalSpinnerParentClass
 			}
 
 			axios.get(`/runMediaGrab`).then((response) => {
