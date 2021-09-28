@@ -49,7 +49,7 @@ Thumbs.db
 *.wmv
 
 # virtualenv
-/venv
-/venv-dev
+venv
+venv-dev
 .env
 
