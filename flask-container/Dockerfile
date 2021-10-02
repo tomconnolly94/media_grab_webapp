@@ -10,9 +10,6 @@ ADD . /src
 # Install the dependencies
 RUN pip install -r requirements.txt
 
-# expose port
-EXPOSE 80
-
 # run the command to start uWSGI
 CMD ["uwsgi", "app.ini"]
 

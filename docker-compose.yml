@@ -6,6 +6,7 @@ services:
     build: ./flask-container
     container_name: flask-container
     restart: always
+    network_mode: bridge
     environment:
       - APP_NAME=Media Grab Web app
     expose:
@@ -15,12 +16,9 @@ services:
     build: ./nginx-container
     container_name: nginx-container
     restart: always
+    network_mode: bridge
     depends_on:
       - flask-container
     ports:
       - "5000:80"
 
-networks:
-  default:
-    external:
-      name: dockernet
