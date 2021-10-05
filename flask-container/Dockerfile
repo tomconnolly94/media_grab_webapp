@@ -1,5 +1,5 @@
-# Use the Python3.7.2 image
-FROM python:3.7.2-stretch
+# Use the node image but install python3 on top of it
+FROM nikolaik/python-nodejs:latest
 
 # Set the working directory to /app
 WORKDIR /src
@@ -9,6 +9,10 @@ ADD . /src
 
 # Install the dependencies
 RUN pip install -r requirements.txt
+
+WORKDIR "client"
+RUN npm install
+WORKDIR "../"
 
 # run the command to start uWSGI
 CMD ["uwsgi", "app.ini"]
