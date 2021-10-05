@@ -10,6 +10,14 @@ services:
       - nginx-container
     environment:
       - APP_NAME=Media Grab Web app
+      - MEDIA_INDEX_FILE_LOCATION=/tmp/media_grab/data/MediaIndex.json
+      - MEDIA_GRAB_DIRECTORY=/tmp/media_grab
+    volumes:
+      - type: bind
+        source: ../media_grab
+        target: /tmp/media_grab
+        volume:
+          nocopy: true
     expose:
       - 8080
 
@@ -19,4 +27,5 @@ services:
     restart: always
     ports:
       - "5000:8080"
+
 

@@ -1,7 +1,7 @@
 # Use the node image but install python3 on top of it
 FROM node:slim
 
-# Set the working directory to /app
+# Set the working directory to /src
 WORKDIR /src
 
 # Copy the current directory contents into the container at /app 
