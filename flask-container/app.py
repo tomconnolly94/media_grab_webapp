@@ -65,22 +65,22 @@ def mediaGrab():
         return getResponse(500, "run media grab failed") 
 
 
-@app.route("/node_modules/<module>", methods=["GET"])
-def nodeModule(module):
-    if ".map" in module:
-        return serveNodeModuleMapModule(module)
-    else:
-        return serveNodeModule(module)
+# @app.route("/node_modules/<module>", methods=["GET"])
+# def nodeModule(module):
+#     if ".map" in module:
+#         return serveNodeModuleMapModule(module)
+#     else:
+#         return serveNodeModule(module)
 
 
-@app.route("/js/<module>", methods=["GET"])
-def customJsModule(module):
-    return serveCustomJsModule(module)
+# @app.route("/js/<module>", methods=["GET"])
+# def customJsModule(module):
+#     return serveCustomJsModule(module)
 
 
-@app.route("/css/<module>", methods=["GET"])
-def customCssModule(module):
-    return serveCustomCssModule(module)
+# @app.route("/css/<module>", methods=["GET"])
+# def customCssModule(module):
+#     return serveCustomCssModule(module)
 
 
 if __name__ == "__main__":
