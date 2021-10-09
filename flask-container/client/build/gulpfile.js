@@ -14,10 +14,10 @@ var gulp = require('gulp'),
 var production_arg = (argv.production === undefined) ? false : true;
 
 //global variables
-var is_production = production_arg || process.env.NODE_ENV == "heroku_production"
+var is_production = production_arg || process.env.NODE_ENV == "production"
 var path_to_root = "../";
 var css_out_directory = path_to_root + "public/dist/css";
-var compiled_webfonts_directory = path_to_root + "public/fonts";
+var compiled_webfonts_directory = path_to_root + "public/dist/fonts";
 var compiled_font_directory = path_to_root + "public/dist/fonts";
 var js_out_directory = path_to_root + "public/dist/js/";
 var non_page_config_lists = [ "all", "unused"];

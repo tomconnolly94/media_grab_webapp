@@ -16,6 +16,10 @@ RUN apt-get install -y python3-pip
 RUN pip3 install -r requirements.txt
 RUN npm install --prefix ./client
 
+# config user
+RUN adduser -D dockuser
+USER dockuser
+RUN chown dockuser:dockuser -R /tmp/media_grab/data/MediaIndex.json
+
 # run the command to start uWSGI
 CMD ["uwsgi", "app.ini"]
-
