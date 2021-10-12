@@ -2,5 +2,7 @@
 
 git pull
 
-sudo systemctl restart media-grab-webapp.service
+# restart docker daemon
+../../scripts/docker/rebuild-docker-dameon.sh flask-container
+
 sudo systemctl restart rev-ssh-tunnel-media-grab-webapp.service
