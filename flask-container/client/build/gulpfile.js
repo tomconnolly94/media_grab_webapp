@@ -51,50 +51,6 @@ jQuery.extend({
 });
 //load dev scripts synchronously`;
 
-//global functions
-function build_file_string(specific_js_scripts){
-
-	file_string = file_string_base;
-
-	for (var specific_js_scripts_index = 0; specific_js_scripts_index < specific_js_scripts.length; specific_js_scripts_index++) {
-
-		var specific_js_script = specific_js_scripts[specific_js_scripts_index];
-
-		//declare route replacement mappings
-		var path_replacement_mappings = {
-			"public/javascript": "/dev-js",
-			"node_modules": "/modules",
-			"public/javascript/components": "/dev-component-js",
-			"public/javascript/layouts": "/dev-layout-js",
-			"public/javascript/pages": "/dev-page-js",
-			"..": ""
-		}
-
-		var path_replacement_mappings_keys = Object.keys(path_replacement_mappings);
-
-		//modify each path to use the available server route, not the directory structure
-		for (var mapping_index = 0; mapping_index < path_replacement_mappings_keys.length; mapping_index++) {
-
-			var mapping_key = path_replacement_mappings_keys[mapping_index];
-
-			if (specific_js_script.includes(mapping_key)) {
-				specific_js_script = specific_js_script.replace(mapping_key, path_replacement_mappings[mapping_key]);
-			}
-		}
-
-		file_string += `\n$.getScript("${specific_js_script}"`;
-
-		if (specific_js_scripts_index != specific_js_scripts.length - 1) {
-			file_string += `,\nfunction(){`;
-		} else {
-			file_string += ")"
-		}
-	}
-	file_string += Array(specific_js_scripts.length).join('})');
-
-	return file_string;
-}
-
 
 function add_relative_root_path(item){
 	if(item.indexOf("https://") >= 0){
@@ -210,35 +166,13 @@ gulp.task('js', function(done) {
 					resolve();
 			}
 			else{
-				var file_string = specific_js_scripts.length > 0 ? build_file_string(specific_js_scripts) : "";
-
-				async.series([
-					function (next) {
-                        if(relative_universal_javascript_files.length > 0){
-                            gulp.src(relative_universal_javascript_files)
-                                .pipe(concat(page_name + ".js"))
-                                .pipe(gulp.dest(js_out_directory))
-                                .on('end', next);
-                        }
-                        else{
-                            next();
-                        }
-					},
-					function (next) {
-						//append file_string to dist file
-						gulp.src(js_out_directory + page_name + ".js")
-							.pipe(map(function (file, cb) {
-								if (file_string.length > 0) {
-									var fileContents = file.contents.toString();
-									fileContents = fileContents += file_string;
-									file.contents = Buffer.from(fileContents);
-								}
-								cb(null, file);
-							}))
-							.pipe(gulp.dest(js_out_directory))
-							.on('end', next);
-					}
-				], resolve);
+				gulp.src(relevant_js_scripts)
+					//.pipe(minifyJS())
+					.pipe(concat(page_name + ".js"))
+					//.pipe(uglify())
+					.on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+					.pipe(gulp.dest(js_out_directory))
+					resolve();
 			}
 		}));
 	}
