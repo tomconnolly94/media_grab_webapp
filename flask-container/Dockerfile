@@ -16,6 +16,9 @@ RUN apt-get install -y python3-pip
 RUN pip3 install -r requirements.txt
 RUN npm install --prefix ./client
 
+# run frontend static file build
+RUN client/node_modules/gulp/bin/gulp.js --gulpfile client/build/gulpfile.js build
+
 # config user
 #RUN useradd dockuser
 #USER dockuser
