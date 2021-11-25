@@ -1,29 +1,26 @@
-# README #
+Media Grab
+========
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### The Idea ###
 
-### What is this repository for? ###
+This project is designed to be a simple framework frontend for the [media_grab](https://github.com/tomconnolly94/media_grab) system. It is a Vue.js web app with a python flask backend that facilitates edits to the mediaIndex.json file which is the single source of truth for media download targets.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Installation
 
-### How do I get set up? ###
+The system is built and run with Docker to prevent time being wasted on managing dependencies. Simply clone the project and run `docker-compose up --build` from the project's root directory.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+## Tests
 
-### Contribution guidelines ###
+Tests are located in the `test/` directory, and the unit tests inside the `test/unit_test` directory. Run the tests from the project root directory with this command: `python -m unittest discover -v -s .`
 
-* Writing tests
-* Code review
-* Other guidelines
+## Licence
 
-### Who do I talk to? ###
+This project uses the MIT Licence, found in ./LICENSE
 
-* Repo owner or admin
-* Other community or team contact
+## Disclaimer
+
+This project is not intended to be used for illegal purposes and the consequences of any use of the code in this repository for illegal purposes shall be born solely by the user.
+
+## Issues
+
+Please report issues via github, I will try to respond quickly
