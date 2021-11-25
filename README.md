@@ -11,7 +11,7 @@ The system is built and run with Docker to prevent time being wasted on managing
 
 ## Tests
 
-Tests are located in the `test/` directory, and the unit tests inside the `test/unit_test` directory. Run the tests from the project root directory with this command: `python -m unittest discover -v -s .`
+Backend tests are located in the `flask-container/server/test/` directory, and the unit tests inside the `test/unit_test` directory. Run the tests from the `flask-container/server` directory with this command: `python -m unittest discover -v -s .` after 
 
 ## Licence
 
