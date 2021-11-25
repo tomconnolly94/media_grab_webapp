@@ -1,4 +1,4 @@
-Media Grab
+Media Grab Webapp
 ========
 
 ### The Idea ###
